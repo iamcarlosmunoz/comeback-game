@@ -18,25 +18,28 @@ git clone https://github.com/iamcarlosmunoz/comeback-game.git
 Go into your new project folder and install dependencies:
 
 ```bash
-cd comeback-game # or 'my-folder-name'
+cd comeback-game
+```
+
+```bash
 npm install
 ```
 
 Start development server:
 
-```
+```bash
 npm run start
 ```
 
+## Deploy for Github Pages
 To create a production build:
 
-```
+```bash
 npm run build
 ```
 
-## Deploy for Github Pages
 after creating a production build
 
-```
+```bash
 npm run deploy
 ```
