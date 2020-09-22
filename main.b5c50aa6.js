@@ -11,4 +11,4 @@ var t,e=require("process"),i=arguments[3];!function(e,i){"object"==typeof export
 },{"phaser":"E66h"}],"epB2":[function(require,module,exports) {
 "use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=void 0;var e=r(require("phaser")),t=r(require("./scenes/HelloWorldScene"));function r(e){return e&&e.__esModule?e:{default:e}}var a={type:e.default.AUTO,width:800,height:600,physics:{default:"arcade",arcade:{gravity:{y:200}}},scene:[t.default]},d=new e.default.Game(a);exports.default=d;
 },{"phaser":"E66h","./scenes/HelloWorldScene":"V6oP"}]},{},["epB2"], null)
-//# sourceMappingURL=/main.b5c50aa6.js.map
+//# sourceMappingURL=/comeback-game/main.b5c50aa6.js.map
