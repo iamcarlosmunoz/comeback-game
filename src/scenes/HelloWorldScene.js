@@ -4,21 +4,21 @@ export default class HelloWorldScene extends Phaser.Scene
 {
 	constructor()
 	{
-		super('hello-world')
+		super({key:'hello-world', active: true})
 	}
 
 	preload()
     {
-        this.load.setBaseURL('https://labs.phaser.io')
+        // https://labs.phaser.io/assets/
+        
+        this.load.atlas('bot', 'images/running_bot.png', 'images/running_bot.json');
+        this.load.image('logo', 'images/phaser3-logo.png')
+        this.load.image('red', 'images/white.png')
 
-        this.load.image('sky', 'assets/skies/space3.png')
-        this.load.image('logo', 'assets/sprites/phaser3-logo.png')
-        this.load.image('red', 'assets/particles/red.png')
     }
 
     create()
     {
-        this.add.image(400, 300, 'sky')
 
         const particles = this.add.particles('red')
 
@@ -35,5 +35,40 @@ export default class HelloWorldScene extends Phaser.Scene
         logo.setCollideWorldBounds(true)
 
         emitter.startFollow(logo)
+
+
+        // Animation bot
+        this.bot = this.add.sprite(100,100,'bot');
+
+        this.anims.create({
+            key: 'walk',
+            frames: this.anims.generateFrameNames('bot',{
+                prefix: 'run',
+                start: 0,
+                end: 10
+            }),
+            repeat: -1,
+            frameRate: 15
+        });
+
+        this.bot.anims.play('walk');
+        this.bot.setInteractive();
+
+        // Event Click on bot
+        this.input.on('gameobjectup', this.toggleFullScreen , this);
+
+        // this.scene.start('Preload')
+
+    }
+
+    // FUNCIONS IU
+    toggleFullScreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+        } else {
+            if (document.exitFullscreen) {
+            document.exitFullscreen(); 
+            }
+        }
     }
 }
