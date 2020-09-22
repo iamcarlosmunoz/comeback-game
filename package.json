@@ -1,0 +1,36 @@
+{
+	"name": "comeback-game",
+	"version": "0.0.1",
+	"description": "Juego serio creado por Estudiantes del la Institución Universitaria Colegio Mayor Del Cauca",
+	"scripts": {
+		"start": "parcel src/index.html -p 8000",
+		"build": "parcel build src/index.html --out-dir dist",
+		"deploy": "gh-pages -d dist"
+	},
+	"author": "Squad Games Studios",
+	"license": "ISC",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/iamcarlosmunoz/comeback-game.git"
+	},
+	"homepage": "https://github.com/iamcarlosmunoz/comeback-game.git",
+	"devDependencies": {
+		"@babel/core": "^7.10.5",
+		"@babel/plugin-proposal-class-properties": "^7.10.4",
+		"babel-eslint": "^10.1.0",
+		"eslint": "^6.8.0",
+		"minimist": ">=1.2.2",
+		"parcel-plugin-clean-easy": "^1.0.2",
+		"parcel-plugin-static-files-copy": "^2.4.3"
+	},
+	"dependencies": {
+		"phaser": "^3.24.1"
+	},
+	"parcelCleanPaths": [
+		"dist"
+	],
+	"staticFiles": {
+		"staticPath": "public",
+		"watcherGlob": "**"
+	}
+}
