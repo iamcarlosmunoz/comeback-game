@@ -10,11 +10,6 @@ export default class MenuGame extends Phaser.Scene {
         this.centerX = Math.round(0.5 * this.scale.width)
         this.centerY = Math.round(0.5 * this.scale.height)
     }
-    
-    preload() {
-        this.load.path = 'images/'
-        this.load.image('btn_fullscreen', 'icons/maximize.png')
-    }
 
     create() {
 

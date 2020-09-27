@@ -1,9 +1,11 @@
 import Phaser from 'phaser'
+import Bootloader from './Bootloader'
 import IntroGame from './scenes/IntroGame'
 import MenuGame from './scenes/MenuGame'
 
 // Scenes
 let scenes = [
+    Bootloader,
     IntroGame,
     MenuGame
 ];

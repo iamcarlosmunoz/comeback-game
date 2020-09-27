@@ -3,19 +3,12 @@ import Phaser from 'phaser'
 export default class IntroGame extends Phaser.Scene {
 
     constructor() {
-        super({key: 'IntroGame', active: true})
+        super({key: 'IntroGame'})
     }
 
     init() {
         this.centerX = Math.round(0.5 * this.scale.width)
         this.centerY = Math.round(0.5 * this.scale.height)
-    }
-
-    preload() {
-        this.load.path = 'images/'
-
-        this.load.image('logo_phaser', 'logos/phaser.png')
-        this.load.image('logo_bestcresw', 'logos/bestcrew-studios.png')
     }
 
     create() {
