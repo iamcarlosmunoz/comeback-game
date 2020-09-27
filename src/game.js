@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
-import HelloWorldScene from './scenes/HelloWorldScene'
+import IntroGame from './scenes/IntroGame'
+import MenuGame from './scenes/MenuGame'
 
 export const App = function () {
 
@@ -14,7 +15,10 @@ export const App = function () {
 App.prototype.start = function() {
 
     // Scenes
-    let scenes = [HelloWorldScene];
+    let scenes = [
+        IntroGame,
+        MenuGame
+    ];
 
     // Game config
     const config = {
@@ -27,7 +31,7 @@ App.prototype.start = function() {
         height: this.HEIGHT,
         scene: scenes,
         pixelArt: false,
-        backgroundColor: 0x000000,
+        backgroundColor: "#000",
         physics: {
             default: 'arcade',
             arcade: {
