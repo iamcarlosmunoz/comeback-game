@@ -1,43 +1,47 @@
-import { App } from './game.js'
+import Phaser from 'phaser'
+import IntroGame from './scenes/IntroGame'
+import MenuGame from './scenes/MenuGame'
 
-function resizeApp () {
+// Scenes
+let scenes = [
+    IntroGame,
+    MenuGame
+];
 
-    // Width-heigth-radio of game resolution
-    let game_ratio = (1366) / (768)
-
-    // Make div full height of brower and keep the ratio game resolution
-    let div = document.getElementById('output')
-    div.style.width = (window.innerHeight * game_ratio + 'px')
-    div.style.height = (window.innerHeight + 'px')
-
-    // Check if device DPI messes up the width-height-ratio
-    let canvas = document.getElementsByTagName('canvas')[0]
-
-    let dpi_w = (parseInt(div.style.width) / canvas.width)
-    let dpi_h = (parseInt(div.style.height) / canvas.height)
-
-    let height = window.innerHeight * (dpi_w / dpi_h)
-    let width = height * game_ratio
-
-    // Scale canvas
-    canvas.style.width = width + 'px'
-    canvas.style.height = height + 'px'
+// Game config
+const config = {
+    type: Phaser.AUTO,
+    parent: 'output',
+    title: '>_COMEBACK',
+    ulr: 'https://github.com/iamcarlosmunoz/comeback-game',
+    version: '0.0.1',
+    width: 1366,
+    height: 768,
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
+    scene: scenes,
+    pixelArt: false,
+    backgroundColor: "#000",
+    banner: {
+        hidePhaser: false,
+        text: '#ffffff',
+        background: [
+            '#4068ff',
+            '#222223',            
+            '#0279ff',
+            '#0202ff',
+            '#30345f'
+        ]
+    },
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 200 }
+        }
+    }
 }
 
-function runApp () {
-
-    // Init the Phaser game app
-    let app = new App()
-    app.start()
-
-    // Scale to device
-    window.addEventListener('resize', resizeApp)
-    resizeApp()
-
-}
-
-window.onload = function () {
-
-    // Launch the game
-    runApp()
-}
+// Create game app
+export default new Phaser.Game(config);

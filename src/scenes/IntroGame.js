@@ -6,6 +6,11 @@ export default class IntroGame extends Phaser.Scene {
         super({key: 'IntroGame', active: true})
     }
 
+    init() {
+        this.centerX = Math.round(0.5 * this.scale.width)
+        this.centerY = Math.round(0.5 * this.scale.height)
+    }
+
     preload() {
         this.load.path = 'images/'
 
@@ -14,25 +19,23 @@ export default class IntroGame extends Phaser.Scene {
     }
 
     create() {
-        const centerY =  Math.round(0.5 * this.sys.game.config.height)
-        const centerX =  Math.round(0.5 * this.sys.game.config.width)
 
-        const logo_phaser = this.add.image(centerX, centerY, 'logo_phaser').setAlpha(0)
-        const logo_bestcresw = this.add.image(centerX, centerY, 'logo_bestcresw').setAlpha(0)
+        this.logo_phaser = this.add.image(this.centerX, this.centerY, 'logo_phaser').setAlpha(0)
+        this.logo_bestcresw = this.add.image(this.centerX, this.centerY, 'logo_bestcresw').setAlpha(0)
 
         let timeline = this.tweens.createTimeline()
 
         // ANIMACION LOGO DE PHASER
         timeline.add({
-            targets: logo_phaser,
+            targets: this.logo_phaser,
             alpha: '+=1',
             ease: 'Linear', 
             duration: 1000,
-            delay: 2000
+            delay: 1500
         })
 
         timeline.add({
-            targets: logo_phaser,
+            targets: this.logo_phaser,
             alpha: '-=1',
             ease: 'Linear',
             duration: 1000,
@@ -41,15 +44,15 @@ export default class IntroGame extends Phaser.Scene {
 
         // ANIMACION LOGO BESTCREW STUDIOS
         timeline.add({
-            targets: logo_bestcresw,
+            targets: this.logo_bestcresw,
             alpha: '+=1',
             ease: 'Linear',
             duration: 1000,
-            delay: 1000
+            delay: 500
         })
 
         timeline.add({
-            targets: logo_bestcresw,
+            targets: this.logo_bestcresw,
             alpha: '-=1',
             ease: 'Linear',
             duration: 1000,
