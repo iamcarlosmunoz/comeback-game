@@ -1,5 +1,7 @@
 import Phaser from 'phaser'
 
+import { toggleFullScreen } from '../Functionloader'
+
 export default class MenuGame extends Phaser.Scene {
 
     constructor() {
@@ -25,18 +27,7 @@ export default class MenuGame extends Phaser.Scene {
         // Create btn_fullscreen
         this.btn_fullscreen = this.add.image(100,100,'btn_fullscreen').setScale(0.3)
 
-        this.btn_fullscreen.setInteractive().on('pointerdown', function() {
-
-            if (this.scale.isFullscreen)
-            {
-                this.scale.stopFullscreen();
-            }
-            else
-            {
-                this.scale.startFullscreen();
-            }
-
-        }, this);
+        this.btn_fullscreen.setInteractive().on('pointerdown',() => toggleFullScreen(this), this);
     }
     update() {}
 
