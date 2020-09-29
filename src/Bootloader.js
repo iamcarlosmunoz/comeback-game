@@ -11,6 +11,10 @@ export default class Bootloader extends Phaser.Scene {
         this.load.image('logo_phaser', 'logos/phaser.png')
         this.load.image('logo_bestcresw', 'logos/bestcrew-studios.png')
         this.load.image('btn_fullscreen', 'icons/maximize.png')
+
+        // Intrucciones
+        this.load.atlas('right', 'sprites/right.png', 'sprites/right_atlas.json')
+        this.load.image('panel', 'sprites/panel.png')
     }
 
     create() {
