@@ -2,12 +2,16 @@ import Phaser from 'phaser'
 import Bootloader from './Bootloader'
 import IntroGame from './scenes/IntroGame'
 import MenuGame from './scenes/MenuGame'
+import Game from './scenes/Game'
+import GameUI from './scenes/GameUI'
 
 // Scenes
 let scenes = [
     Bootloader,
     IntroGame,
-    MenuGame
+    MenuGame,
+    Game,
+    GameUI
 ];
 
 // Game config
