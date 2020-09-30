@@ -1,5 +1,8 @@
 import Phaser from 'phaser'
 
+import Instruction from '../gameObjects/UI/Instruction'
+import DropZone from '../gameObjects/UI/DropZone'
+
 export default class GameUI extends Phaser.Scene {
 
     constructor() {
@@ -12,108 +15,56 @@ export default class GameUI extends Phaser.Scene {
     }
 
     create() {
+        // Rectangle Background
+        this.add.rectangle(0, 500, this.scale.width, 300, 0x6666ff).setOrigin(0)
 
-        this.panel = this.add.image(205,550,'panel').setDepth(1).setScale(0.5)
+        // Create GameObject Instruction
+        this.right = new Instruction(this, 200, 540, 'right')
+        this.jump = new Instruction(this, 200, 580, 'right')
+        this.left = new Instruction(this, 200, 620, 'right')
 
-        this.right1 = this.add.sprite(200, 540, 'right')
-            .setScale(0.3)
-            .setDepth(2)
-            .setInteractive(new Phaser.Geom.Rectangle(5, 17, 760, 120), Phaser.Geom.Rectangle.Contains)
-            .setDataEnabled()
+        // Create Instructions Panel and container
+        this.instructions_container = this.add.container(40,80)
+        this.instructions_container.setDepth(1)
+        this.instructions_panel = this.add.image(202,553,'panel').setDepth(1).setScale(0.48)
 
-        this.right2 = this.add.sprite(200, 580, 'right')
-            .setScale(0.3)
-            .setDepth(2)
-            .setInteractive(new Phaser.Geom.Rectangle(5, 17, 760, 120), Phaser.Geom.Rectangle.Contains)
-            .setDataEnabled()
+        this.input.setDraggable([this.right,this.jump,this.left])
 
-        this.right3 = this.add.sprite(200, 620, 'right')
-            .setScale(0.3)
-            .setDepth(2)
-            .setInteractive(new Phaser.Geom.Rectangle(5, 17, 760, 120), Phaser.Geom.Rectangle.Contains)
-            .setDataEnabled()
+        //  Create GameObject DropZone
+        this.dropZone_1 = new DropZone(this, 900, 540, 250, 50, 1, 0x363636, this.instructions_container)
+        this.dropZone_2 = new DropZone(this, 900, 595, 250, 50, 2, 0x363636, this.instructions_container)
+        this.dropZone_3 = new DropZone(this, 900, 650, 250, 50, 3, 0x363636, this.instructions_container)
 
+        this.instructions_container.add([
+            this.instructions_panel,
+            this.left,
+            this.jump,
+            this.right,
+            this.dropZone_1,
+            this.dropZone_2,
+            this.dropZone_3
+            ])
 
-        this.input.setDraggable([this.right1,this.right2,this.right3])
-
-
-        //  A drop zone 1
-        let zone = this.add.zone(900, 580, 250, 50).setRectangleDropZone(250, 50).setDataEnabled()
-        zone.data.set('name', 1)
-        zone.data.set('action', '')
-
-        this.add.rectangle(
-            zone.x - zone.input.hitArea.width / 2,
-            zone.y - zone.input.hitArea.height / 2,
-            zone.input.hitArea.width,
-            zone.input.hitArea.height,
-            0x363636
-        ).setDepth(1).setOrigin(0)
-
-        //  A drop zone 2
-        let zone2 = this.add.zone(900, 640, 250, 50).setRectangleDropZone(250, 50).setDataEnabled()
-        zone2.data.set('name', 2)
-        zone2.data.set('action', '')
-
-
-        this.add.rectangle(
-            zone2.x - zone2.input.hitArea.width / 2,
-            zone2.y - zone2.input.hitArea.height / 2,
-            zone2.input.hitArea.width,
-            zone2.input.hitArea.height,
-            0x363636
-        ).setDepth(1).setOrigin(0)
-
-        //  A drop zone 3
-        let zone3 = this.add.zone(900, 700, 250, 50).setRectangleDropZone(250, 50).setDataEnabled()
-        zone3.data.set('name', 3)
-        zone3.data.set('action', '')
-
-        this.add.rectangle(
-            zone3.x - zone3.input.hitArea.width / 2,
-            zone3.y - zone3.input.hitArea.height / 2,
-            zone3.input.hitArea.width,
-            zone3.input.hitArea.height,
-            0x363636
-        ).setDepth(1).setOrigin(0)
-
-        // SET DATA AND SETTINGS 
-
-        this.right1.data.set('x', this.right1.x)
-        this.right1.data.set('y', this.right1.y)
-        this.right1.data.set('zone', 0)
-        this.right1.data.set('action', 'right')
-
-        this.right2.data.set('x', this.right2.x)
-        this.right2.data.set('y', this.right2.y)
-        this.right2.data.set('zone', 0)
-        this.right2.data.set('action', 'jump')
-
-        this.right3.data.set('x', this.right3.x)
-        this.right3.data.set('y', this.right3.y)
-        this.right3.data.set('zone', 0)
-        this.right3.data.set('action', 'left')
 
         // DRAG AND DROP FUNCTIONS
-
         this.input.on('dragstart', function (pointer, gameObject) {
 
-            gameObject.setDepth(3)
+            this.instructions_container.bringToTop(gameObject)
 
             switch(gameObject.data.get('zone')){
                 case 1:
-                    zone.setInteractive()
-                    zone.data.values.action = ''
+                    this.dropZone_1.setInteractive()
+                    this.dropZone_1.data.values.action = ''
                     gameObject.data.values.zone = 0
                     break;
                 case 2:
-                    zone2.setInteractive()
-                    zone2.data.values.action = ''
+                    this.dropZone_2.setInteractive()
+                    this.dropZone_2.data.values.action = ''
                     gameObject.data.values.zone = 0
                     break;
                 case 3:
-                    zone3.setInteractive()
-                    zone3.data.values.action = ''
+                    this.dropZone_3.setInteractive()
+                    this.dropZone_3.data.values.action = ''
                     gameObject.data.values.zone = 0
                     break;
             }
@@ -152,45 +103,6 @@ export default class GameUI extends Phaser.Scene {
             }
 
         })
-
-        // Only in development
-        // this.input.enableDebug(this.right1)
-        // this.input.enableDebug(this.right2)
-        // this.input.enableDebug(this.right3)
-        
-        var text = this.add.text(350, 250, '', { font: '16px Courier', fill: '#00ff00' });
-
-        zone.on('changedata-action', function (gameObject, value) {
-
-            text.setText([
-                'Zona: ' + zone.data.get('action'),
-                'Zona2: ' + zone2.data.get('action'),
-                'Zona3: ' + zone3.data.get('action')
-            ]);
-
-        });
-
-        zone2.on('changedata-action', function (gameObject, value) {
-
-            text.setText([
-                'Zona: ' + zone.data.get('action'),
-                'Zona2: ' + zone2.data.get('action'),
-                'Zona3: ' + zone3.data.get('action')
-            ]);
-
-        });
-
-        zone3.on('changedata-action', function (gameObject, value) {
-
-            text.setText([
-                'Zona: ' + zone.data.get('action'),
-                'Zona2: ' + zone2.data.get('action'),
-                'Zona3: ' + zone3.data.get('action')
-            ]);
-
-        });
     
-        // Rectangle Background
-        this.add.rectangle(0, 500, this.scale.width, 300, 0x6666ff).setOrigin(0)
     }
 }
