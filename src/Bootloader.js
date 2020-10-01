@@ -14,11 +14,13 @@ export default class Bootloader extends Phaser.Scene {
         this.load.image('player', 'sprites/bird.png')
 
         // Intrucciones
-        this.load.atlas('right', 'sprites/right.png', 'sprites/right_atlas.json')
-        this.load.image('panel', 'sprites/panel.png')
-    }
+        this.load.spritesheet('right', 'sprites/instructions/right.png',{ frameWidth: 254, frameHeight: 62 })
+        this.load.spritesheet('jump', 'sprites/instructions/jump.png',{ frameWidth: 254, frameHeight: 62 })
+        this.load.spritesheet('left', 'sprites/instructions/left.png',{ frameWidth: 254, frameHeight: 62 })
+        this.load.image('instructions_panel', 'sprites/instructions/panel.png')
 
-    create() {
-        this.scene.start('Game')
+        this.load.on('complete', () => {
+            this.scene.start('Game')
+        })
     }
 }

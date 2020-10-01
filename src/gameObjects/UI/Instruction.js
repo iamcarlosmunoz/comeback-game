@@ -8,9 +8,8 @@ export default class Instruction extends Phaser.GameObjects.Sprite {
         scene.add.existing(this)
 
         // Config 
-        this.setScale(0.3)
         this.setDepth(2)
-        this.setInteractive(new Phaser.Geom.Rectangle(5, 17, 760, 120), Phaser.Geom.Rectangle.Contains)
+        this.setInteractive(new Phaser.Geom.Rectangle(10, 15, 233, 35), Phaser.Geom.Rectangle.Contains)
         this.setDataEnabled()
 
         // Data
