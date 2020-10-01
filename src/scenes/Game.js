@@ -1,5 +1,7 @@
 import Phaser from 'phaser'
 
+import Player from '../gameObjects/Player'
+
 export default class Game extends Phaser.Scene {
 
     constructor() {
@@ -12,12 +14,14 @@ export default class Game extends Phaser.Scene {
     }
 
     create() {
+        
         this.scene.run('GameUI')
 
-        //  Set the camera and physics bounds to be the size of 4x4 bg images
+        //  Set the camera and physics bounds 
         this.cameras.main.setBounds(0, 0, 2000, 500);
         this.physics.world.setBounds(0, 0, 2000, 500);
 
+        // Controls
         this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
         this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
         this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
@@ -30,31 +34,26 @@ export default class Game extends Phaser.Scene {
             260,
             'GAMEPLAY',
             { font: '70px San Serif', fill: '#fff' }
-        )
-        this.text.setOrigin(0.5)
+        ).setOrigin(0.5)
 
-        this.player = this.physics.add.sprite(200,200,'player').setScale(2).setOrigin(0.5)
-        this.player.setCollideWorldBounds(true)
-        this.player.setGravityY(1000)
-        this.cameras.main.startFollow(this.player, false, 0.05, 0.05)
+        this.astronaut = new Player(this, 200, 200, 'player',2, this.cameras)
+
 
     }
 
     update() {
 
         if (this.right.isDown) {
-            this.player.setVelocityX(600)
-            this.player.flipX = false
+            this.astronaut.move('right')
         } else if (this.left.isDown) {
-            this.player.setVelocityX(-600)
-            this.player.flipX = true
+            this.astronaut.move('left')
         } else {
-            this.player.setVelocityX(0)
+            this.astronaut.move('')
         }
         
         // @ts-ignore
-        if (this.up.isDown && this.player.body.onFloor()) {
-            this.player.setVelocityY(-700)            
+        if (this.up.isDown && this.astronaut.body.onFloor()) {
+            this.astronaut.move('up')          
         }
 
     }
