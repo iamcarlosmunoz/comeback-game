@@ -30,7 +30,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 this.setVelocityX(-600)
                 this.flipX = true
                 break
-            case 'up':
+            case 'jump':
                 this.setVelocityY(-700)
                 break
             default:

@@ -92,7 +92,7 @@ export default class GameUI extends Phaser.Scene {
             gameObject.x = dropZone.x
             gameObject.y = dropZone.y
             gameObject.input.enabled = true
-            gameObject.setFrame(1)
+            // gameObject.setFrame(1)
             gameObject.setDepth(2)
             gameObject.data.values.zone = dropZone.data.get('name')
             dropZone.data.values.action = gameObject.data.get('action')
@@ -115,17 +115,22 @@ export default class GameUI extends Phaser.Scene {
                 this.dropZone_1.data.get('action'),
                 this.dropZone_2.data.get('action'),
                 this.dropZone_3.data.get('action')
-            ], 1000
+            ], 
+            [
+                this.right,
+                this.left,
+                this.jump
+            ]
         ), this)
     
     }
 
 
-    clickHandler(dropZones, delay){
+    clickHandler(dropZones, instructions){
         
         // @ts-ignore
         const player = this.gameScene.getPlayer()
-        forLoop(dropZones, player, delay)
+        forLoop(dropZones, player, instructions)
         
     }
 }
