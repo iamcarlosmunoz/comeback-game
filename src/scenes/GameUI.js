@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 
 import Instruction from '../gameObjects/UI/Instruction'
 import DropZone from '../gameObjects/UI/DropZone'
+import { forLoop } from '../Functionloader'
 
 export default class GameUI extends Phaser.Scene {
 
@@ -12,6 +13,7 @@ export default class GameUI extends Phaser.Scene {
     init() {
         this.centerX = Math.round(0.5 * this.scale.width)
         this.centerY = Math.round(0.5 * this.scale.height)
+        this.gameScene = this.scene.get('Game')
     }
 
     create() {
@@ -107,6 +109,23 @@ export default class GameUI extends Phaser.Scene {
             }
 
         })
+
+        this.btn_run.on('pointerdown', () => this.clickHandler(
+            [
+                this.dropZone_1.data.get('action'),
+                this.dropZone_2.data.get('action'),
+                this.dropZone_3.data.get('action')
+            ], 1000
+        ), this)
     
+    }
+
+
+    clickHandler(dropZones, delay){
+        
+        // @ts-ignore
+        const player = this.gameScene.getPlayer()
+        forLoop(dropZones, player, delay)
+        
     }
 }

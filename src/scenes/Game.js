@@ -43,18 +43,22 @@ export default class Game extends Phaser.Scene {
 
     update() {
 
-        if (this.right.isDown) {
-            this.astronaut.move('right')
-        } else if (this.left.isDown) {
-            this.astronaut.move('left')
-        } else {
-            this.astronaut.move('')
-        }
+        // if (this.right.isDown) {
+        //     this.astronaut.move('right')
+        // } else if (this.left.isDown) {
+        //     this.astronaut.move('left')
+        // } else {
+        //     this.astronaut.move('')
+        // }
         
-        // @ts-ignore
-        if (this.up.isDown && this.astronaut.body.onFloor()) {
-            this.astronaut.move('up')          
-        }
+        // // @ts-ignore
+        // if (this.up.isDown && this.astronaut.body.onFloor()) {
+        //     this.astronaut.move('up')          
+        // }
 
+    }
+
+    getPlayer(){
+        return this.astronaut
     }
 }
