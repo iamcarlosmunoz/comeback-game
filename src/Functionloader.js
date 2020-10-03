@@ -28,6 +28,9 @@ export const forLoop = (dropZones, player, instructions) => {
                         } else if (dropZones[i + 1] === 'jump') {
                             sleepTimeAfter = 1000
                             sleepTimeBefore = 0
+                        } else if (dropZones[i + 1] === 'left') {
+                            sleepTimeAfter = 500
+                            sleepTimeBefore = 500
                         }
                     } else if (i === 1) {
                         // before
@@ -51,6 +54,8 @@ export const forLoop = (dropZones, player, instructions) => {
                     } else if (i === 2) {
                         if (dropZones[i - 1] === '') {
                             sleepTimeAfter = 500
+                        } else if (dropZones[i - 2] === 'left' && dropZones[i - 1] === 'jump') {
+                            sleepTimeAfter = 500
                         }
                     }
                     break
@@ -65,6 +70,9 @@ export const forLoop = (dropZones, player, instructions) => {
                         } else if (dropZones[i + 1] === 'jump') {
                             sleepTimeAfter = 1000
                             sleepTimeBefore = 0
+                        } else if (dropZones[i + 1] === 'right') {
+                            sleepTimeAfter = 500
+                            sleepTimeBefore = 500
                         }
                     } else if (i === 1) {
                         // before
@@ -87,6 +95,8 @@ export const forLoop = (dropZones, player, instructions) => {
                         }
                     } else if (i === 2) {
                         if (dropZones[i - 1] === '') {
+                            sleepTimeAfter = 500
+                        } else if (dropZones[i - 2] === 'right' && dropZones[i - 1] === 'jump') {
                             sleepTimeAfter = 500
                         }
                     }
@@ -117,6 +127,9 @@ export const forLoop = (dropZones, player, instructions) => {
                         // after
                         if (dropZones[i + 1] === '') {
                             sleepTimeAfter = 1000
+                            sleepTimeBefore = 1000
+                        } else if (dropZones[i + 1] !== '' && dropZones[i - 1] === '') {
+                            sleepTimeAfter = 500
                             sleepTimeBefore = 1000
                         }
                     }
