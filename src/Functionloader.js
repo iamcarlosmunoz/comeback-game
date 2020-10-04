@@ -184,4 +184,9 @@ export const forLoop = (dropZones, player, instructions) => {
 
 
 // Only in development
-    // this.input.enableDebug(this.right1)
+// this.input.enableDebug(this.right1)
+
+// // debugging pointer x,y
+// this.input.on('pointermove', function (pointer) {
+// console.log('x: '+pointer.x + '   y: '+pointer.y)
+// }, this);

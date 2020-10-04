@@ -14,7 +14,7 @@ export default class Game extends Phaser.Scene {
     }
 
     create() {
-        
+        // add scene UI
         this.scene.run('GameUI')
 
         //  Set the camera and physics bounds 
@@ -28,7 +28,7 @@ export default class Game extends Phaser.Scene {
 
         this.add.rectangle(0, 0, 2000,550, 0xff4242).setOrigin(0)
 
-        // Create Texto
+        // Create Text
         this.text = this.add.text(
             this.centerX,
             260,
@@ -36,6 +36,7 @@ export default class Game extends Phaser.Scene {
             { font: '70px San Serif', fill: '#fff' }
         ).setOrigin(0.5)
 
+        // Create Player in Scene Game
         this.astronaut = new Player(this, 200, 200, 'player',2, this.cameras)
 
 

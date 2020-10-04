@@ -11,8 +11,11 @@ export default class GameUI extends Phaser.Scene {
     }
 
     init() {
+        // Propeties Scene UI
         this.centerX = Math.round(0.5 * this.scale.width)
         this.centerY = Math.round(0.5 * this.scale.height)
+
+        // Get Properties of GameScene
         this.gameScene = this.scene.get('Game')
 
         // Properties DropZones
@@ -44,17 +47,21 @@ export default class GameUI extends Phaser.Scene {
         // Add button loop
         this.btn_run = this.add.sprite(1222,535,'btn_run').setInteractive().setScale(0.5).setDepth(1)
 
+        // Add text iterator value
+        this.iterator_loop = this.add.text(
+            this.scale.width - 586, // x position
+            418, // y position
+            '1',
+            { font: '35px Arial', fill: '#ff2424' }
+        ).setOrigin(0.5).setDataEnabled().setInteractive()
+        this.iterator_loop.data.set('i', 1)
+
         //  Create GameObject DropZone
         this.dropZone_1 = new DropZone(this, this.dropX, 491.5, this.rectangleDropX, this.rectangleDropY, 1, this.colorDropZone, this.instructions_container)
         this.dropZone_2 = new DropZone(this, this.dropX, 540, this.rectangleDropX, this.rectangleDropY, 2, this.colorDropZone, this.instructions_container)
         this.dropZone_3 = new DropZone(this, this.dropX, 589.5, this.rectangleDropX, this.rectangleDropY, 3, this.colorDropZone, this.instructions_container)
-        
-        // // debugging pointer x,y
-        // this.input.on('pointermove', function (pointer) {
-        // console.log('x: '+pointer.x + '   y: '+pointer.y)
-        // }, this);
 
-        // Add container
+        // Add elements instructions container
         this.instructions_container.add([
             this.instructions_panel,
             this.left,
@@ -63,7 +70,8 @@ export default class GameUI extends Phaser.Scene {
             this.dropZone_1,
             this.dropZone_2,
             this.dropZone_3,
-            this.btn_run
+            this.btn_run,
+            this.iterator_loop
             ])
 
         //create state bar player
@@ -126,6 +134,22 @@ export default class GameUI extends Phaser.Scene {
 
         })
 
+        // ITERATER LISTENERS
+        this.iterator_loop.on('pointerover', () => {
+            this.iterator_loop.setStroke('#fff', 6).setShadow(2, 2, "#333333", 2, true, false)
+        })
+        this.iterator_loop.on('pointerout', () => {
+            this.iterator_loop.setStroke('#fff', 0).setShadow(2, 2, "#333333", 2, false, false)
+        })
+        this.iterator_loop.on('pointerdown', () => {
+            if (this.iterator_loop.data.get('i') < 5) {
+                this.iterator_loop.data.values.i = this.iterator_loop.data.get('i') + 1
+            } else {
+                this.iterator_loop.data.values.i = 1
+            }
+            this.iterator_loop.setText(this.iterator_loop.data.get('i'))
+        })
+        // CLICK FUNCTIONS UI
         this.btn_run.on('pointerdown', () => this.clickHandler(
             [
                 this.dropZone_1.data.get('action'),
@@ -147,12 +171,14 @@ export default class GameUI extends Phaser.Scene {
 
     clickHandler(dropZones, instructions, btn, gameScene){
 
-        // Turn on Btn_Run
-        btn.setFrame(1)
-        setTimeout(() => {btn.setFrame(0)},500) // turn off Btn_Run
-
         // @ts-ignore
         const player = gameScene.getPlayer()
+
+        // Turn on btn_run
+        btn.setFrame(1)
+        setTimeout(() => { btn.setFrame(0) }, 500 ) // turn off btn_run
+
+        // Call one iteration Function Loop
         forLoop(dropZones, player, instructions)
         
     }
