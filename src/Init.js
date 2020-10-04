@@ -21,8 +21,8 @@ const config = {
     title: '>_COMEBACK',
     ulr: 'https://github.com/iamcarlosmunoz/comeback-game',
     version: '0.0.1',
-    width: 1366,
-    height: 768,
+    width: 1600,
+    height: 900,
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH

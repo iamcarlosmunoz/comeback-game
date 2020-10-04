@@ -3,7 +3,6 @@ import Phaser from 'phaser'
 import Instruction from '../gameObjects/UI/Instruction'
 import DropZone from '../gameObjects/UI/DropZone'
 import { forLoop } from '../Functionloader'
-import { Runner } from 'matter'
 
 export default class GameUI extends Phaser.Scene {
 
@@ -15,34 +14,42 @@ export default class GameUI extends Phaser.Scene {
         this.centerX = Math.round(0.5 * this.scale.width)
         this.centerY = Math.round(0.5 * this.scale.height)
         this.gameScene = this.scene.get('Game')
+
+        // Properties DropZones
+        this.dropX = 976.5
+        this.rectangleDropX = 252
+        this.rectangleDropY = 40
+        this.colorDropZone = 0x363636
+
+        // Propeties Instructions
+        this.instructionX = 189
     }
 
     create() {
         // Rectangle Background
-        this.add.rectangle(0, 500, this.scale.width, 300, 0x242424).setOrigin(0)
+        this.add.rectangle(0, 550, this.scale.width, 400, 0x242424).setOrigin(0)
 
         // Create Instructions Panel and container
-        this.instructions_container = this.add.container(0,80).setDepth(1)
+        this.instructions_container = this.add.container(100, 215).setDepth(1)
         this.instructions_panel = this.add.image(34,344.5,'instructions_panel').setOrigin(0).setDepth(1).setScale(0.5)
         
         // Create GameObject Instruction
-        this.right = new Instruction(this, 189, 540, 'right')
-        this.jump = new Instruction(this, 189, 580, 'jump')
-        this.left = new Instruction(this, 189, 620, 'left')
+        this.right = new Instruction(this, this.instructionX, 540, 'right')
+        this.jump = new Instruction(this, this.instructionX, 580, 'jump')
+        this.left = new Instruction(this, this.instructionX, 620, 'left')
 
         // Drag propertie
         this.input.setDraggable([this.right,this.jump,this.left])
 
         // Add button loop
-        
-                  
-        this.btn_run = this.add.sprite(1222,616,'btn_run').setInteractive().setScale(0.5).setDepth(1)
+        this.btn_run = this.add.sprite(1222,535,'btn_run').setInteractive().setScale(0.5).setDepth(1)
+
         //  Create GameObject DropZone
-        this.dropZone_1 = new DropZone(this, 976.5, 491.5, 252, 40, 1, 0x363636, this.instructions_container)
-        this.dropZone_2 = new DropZone(this, 976.5, 540, 252, 40, 2, 0x363636, this.instructions_container)
-        this.dropZone_3 = new DropZone(this, 976.5, 589.5, 252, 40, 3, 0x363636, this.instructions_container)
+        this.dropZone_1 = new DropZone(this, this.dropX, 491.5, this.rectangleDropX, this.rectangleDropY, 1, this.colorDropZone, this.instructions_container)
+        this.dropZone_2 = new DropZone(this, this.dropX, 540, this.rectangleDropX, this.rectangleDropY, 2, this.colorDropZone, this.instructions_container)
+        this.dropZone_3 = new DropZone(this, this.dropX, 589.5, this.rectangleDropX, this.rectangleDropY, 3, this.colorDropZone, this.instructions_container)
         
-        //localizar el punterx,y
+        // // debugging pointer x,y
         // this.input.on('pointermove', function (pointer) {
         // console.log('x: '+pointer.x + '   y: '+pointer.y)
         // }, this);
@@ -55,10 +62,11 @@ export default class GameUI extends Phaser.Scene {
             this.right,
             this.dropZone_1,
             this.dropZone_2,
-            this.dropZone_3
+            this.dropZone_3,
+            this.btn_run
             ])
 
-        //creacion barra estado
+        //create state bar player
         this.add.image(50,50,'status_main').setOrigin(0).setScale(0.4)
 
         // DRAG AND DROP FUNCTIONS
@@ -101,7 +109,6 @@ export default class GameUI extends Phaser.Scene {
             gameObject.x = dropZone.x
             gameObject.y = dropZone.y
             gameObject.input.enabled = true
-            // gameObject.setFrame(1)
             gameObject.setDepth(2)
             gameObject.data.values.zone = dropZone.data.get('name')
             dropZone.data.values.action = gameObject.data.get('action')
@@ -131,18 +138,21 @@ export default class GameUI extends Phaser.Scene {
                 this.jump,
                 
             ],
-            this.btn_run
+            this.btn_run,
+            this.gameScene
         ), this)
     
     }
 
 
-    clickHandler(dropZones, instructions, btn){
+    clickHandler(dropZones, instructions, btn, gameScene){
+
+        // Turn on Btn_Run
         btn.setFrame(1)
-        setTimeout(() => {btn.setFrame(0)},500)
+        setTimeout(() => {btn.setFrame(0)},500) // turn off Btn_Run
 
         // @ts-ignore
-        const player = this.gameScene.getPlayer()
+        const player = gameScene.getPlayer()
         forLoop(dropZones, player, instructions)
         
     }
