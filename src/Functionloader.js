@@ -16,45 +16,45 @@ export const forLoop = (dropZones, player, instructions) => {
 
     function internalLoop() {        
         setTimeout(function() {  
-            switch(dropZones[i]) {
+            switch(dropZones[i].data.get('action')) {
                 case 'right':
                     stateInstruction(instructions[0], 'on', 'right', player)
                     stateInstruction(instructions[0], 'off', 'right', player)
                     if (i === 0) {
                         // after
-                        if (dropZones[i + 1] === '') {
+                        if (dropZones[i + 1].data.get('action') === '') {
                             sleepTimeAfter = 500
                             sleepTimeBefore = 500
-                        } else if (dropZones[i + 1] === 'jump') {
+                        } else if (dropZones[i + 1].data.get('action') === 'jump') {
                             sleepTimeAfter = 1000
                             sleepTimeBefore = 0
-                        } else if (dropZones[i + 1] === 'left') {
+                        } else if (dropZones[i + 1].data.get('action') === 'left') {
                             sleepTimeAfter = 500
                             sleepTimeBefore = 500
                         }
                     } else if (i === 1) {
                         // before
-                        if (dropZones[i - 1] === '') {
+                        if (dropZones[i - 1].data.get('action') === '') {
                             sleepTimeAfter = 500
-                        } else if (dropZones[i - 1] === 'jump') {
+                        } else if (dropZones[i - 1].data.get('action') === 'jump') {
                             sleepTimeAfter = 500
                         }
 
                         // after
-                        if (dropZones[i + 1] === '') {
+                        if (dropZones[i + 1].data.get('action') === '') {
                             sleepTimeAfter = 500
                             sleepTimeBefore = 500
-                        } else if (dropZones[i + 1] === 'jump') {
+                        } else if (dropZones[i + 1].data.get('action') === 'jump') {
                             sleepTimeAfter = 1000
                             sleepTimeBefore = 0
-                        } else if (dropZones[i + 1] === 'left') {
+                        } else if (dropZones[i + 1].data.get('action') === 'left') {
                             sleepTimeAfter = 500
                             sleepTimeBefore = 500
                         }
                     } else if (i === 2) {
-                        if (dropZones[i - 1] === '') {
+                        if (dropZones[i - 1].data.get('action')=== '') {
                             sleepTimeAfter = 500
-                        } else if (dropZones[i - 2] === 'left' && dropZones[i - 1] === 'jump') {
+                        } else if (dropZones[i - 2].data.get('action') === 'left' && dropZones[i - 1] === 'jump') {
                             sleepTimeAfter = 500
                         }
                     }
@@ -64,39 +64,39 @@ export const forLoop = (dropZones, player, instructions) => {
                     stateInstruction(instructions[1], 'off', 'left', player)
                     if (i === 0) {
                         // after
-                        if (dropZones[i + 1] === '') {
+                        if (dropZones[i + 1].data.get('action') === '') {
                             sleepTimeAfter = 500
                             sleepTimeBefore = 500
-                        } else if (dropZones[i + 1] === 'jump') {
+                        } else if (dropZones[i + 1].data.get('action') === 'jump') {
                             sleepTimeAfter = 1000
                             sleepTimeBefore = 0
-                        } else if (dropZones[i + 1] === 'right') {
+                        } else if (dropZones[i + 1].data.get('action') === 'right') {
                             sleepTimeAfter = 500
                             sleepTimeBefore = 500
                         }
                     } else if (i === 1) {
                         // before
-                        if (dropZones[i-1] === '') {
+                        if (dropZones[i-1].data.get('action') === '') {
                             sleepTimeAfter = 500
-                        } else if (dropZones[i-1] === 'jump') {
+                        } else if (dropZones[i-1].data.get('action') === 'jump') {
                             sleepTimeAfter = 500
                         }
 
                         // after
-                        if (dropZones[i + 1] === '') {
+                        if (dropZones[i + 1].data.get('action') === '') {
                             sleepTimeAfter = 500
                             sleepTimeBefore = 500
-                        } else if (dropZones[i + 1] === 'jump') {
+                        } else if (dropZones[i + 1].data.get('action') === 'jump') {
                             sleepTimeAfter = 1000
                             sleepTimeBefore = 0
-                        } else if (dropZones[i + 1] === 'right') {
+                        } else if (dropZones[i + 1].data.get('action') === 'right') {
                             sleepTimeAfter = 500
                             sleepTimeBefore = 500
                         }
                     } else if (i === 2) {
-                        if (dropZones[i - 1] === '') {
+                        if (dropZones[i - 1].data.get('action') === '') {
                             sleepTimeAfter = 500
-                        } else if (dropZones[i - 2] === 'right' && dropZones[i - 1] === 'jump') {
+                        } else if (dropZones[i - 2].data.get('action') === 'right' && dropZones[i - 1].data.get('action') === 'jump') {
                             sleepTimeAfter = 500
                         }
                     }
@@ -106,29 +106,29 @@ export const forLoop = (dropZones, player, instructions) => {
                     stateInstruction(instructions[2], 'off', 'jump', player)
                     if (i === 0) {
                         // after
-                        if (dropZones[i + 1] === '') {
+                        if (dropZones[i + 1].data.get('action') === '') {
                             sleepTimeAfter = 500
                             sleepTimeBefore = 500
-                        } else if (dropZones[i+1] !== '') { // left or right
+                        } else if (dropZones[i+1].data.get('action') !== '') { // left or right
                             sleepTimeAfter = 0
                             sleepTimeBefore = 500
                         }
                     } else if (i === 1) {
                         // before
-                        if (dropZones[i - 1] === ''){
+                        if (dropZones[i - 1].data.get('action') === ''){
                             sleepTimeAfter = 0
-                        } else if (dropZones[i - 1] !== '' && dropZones[i + 1] === '') {
+                        } else if (dropZones[i - 1].data.get('action') !== '' && dropZones[i + 1].data.get('action') === '') {
                             sleepTimeAfter = 1000
-                        } else if (dropZones[i - 1] !== '' && dropZones[i + 1] !== '') {
+                        } else if (dropZones[i - 1].data.get('action') !== '' && dropZones[i + 1].data.get('action') !== '') {
                             sleepTimeAfter = 1000
                             sleepTimeBefore = 1000
                         }
 
                         // after
-                        if (dropZones[i + 1] === '') {
+                        if (dropZones[i + 1].data.get('action') === '') {
                             sleepTimeAfter = 1000
                             sleepTimeBefore = 1000
-                        } else if (dropZones[i + 1] !== '' && dropZones[i - 1] === '') {
+                        } else if (dropZones[i + 1].data.get('action') !== '' && dropZones[i - 1].data.get('action') === '') {
                             sleepTimeAfter = 500
                             sleepTimeBefore = 1000
                         }
@@ -141,7 +141,7 @@ export const forLoop = (dropZones, player, instructions) => {
             }
 
             sleep(sleepTimeAfter).then(() => { player.move('') })
-            console.log('['+i+'] ' + 'Before: ' + sleepTimeBefore + '  After: ' + sleepTimeAfter + '  action: '+dropZones[i])
+            console.log('['+i+'] ' + 'Before: ' + sleepTimeBefore + '  After: ' + sleepTimeAfter + '  action: '+dropZones[i].data.get('action'))
             i++;                  
             if (i < 3) {           
                 internalLoop();             

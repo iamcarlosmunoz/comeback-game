@@ -45,8 +45,9 @@ export default class GameUI extends Phaser.Scene {
         this.input.setDraggable([this.right,this.jump,this.left])
 
         // Add button loop
-        this.btn_run = this.add.sprite(1222,535,'btn_run').setInteractive().setScale(0.5).setDepth(1)
-
+        this.btn_run = this.add.sprite(1222,535,'btn_run').setInteractive().setDataEnabled().setScale(0.5).setDepth(1)
+        this.btn_run.data.set('click', false)
+        
         // Add text iterator value
         this.iterator_loop = this.add.text(
             this.scale.width - 586, // x position
@@ -152,9 +153,9 @@ export default class GameUI extends Phaser.Scene {
         // CLICK FUNCTIONS UI
         this.btn_run.on('pointerdown', () => this.clickHandler(
             [
-                this.dropZone_1.data.get('action'),
-                this.dropZone_2.data.get('action'),
-                this.dropZone_3.data.get('action')
+                this.dropZone_1,
+                this.dropZone_2,
+                this.dropZone_3
             ], 
             [
                 this.right,
@@ -163,23 +164,75 @@ export default class GameUI extends Phaser.Scene {
                 
             ],
             this.btn_run,
-            this.gameScene
+            this.gameScene,
+            this.iterator_loop
         ), this)
     
     }
 
 
-    clickHandler(dropZones, instructions, btn, gameScene){
+    clickHandler(dropZones, instructions, btn, gameScene, iterator){
 
         // @ts-ignore
         const player = gameScene.getPlayer()
+        let timeAfter = 3000
+        let timeBefore = 0
+        let i = 0
+
+        // click data btn
+        if (!btn.data.get('click')){
+            btn.data.values.click = true
+        } else {
+            btn.data.values.click = false
+            timeAfter = 0
+        }
+
+        // disable input elements
+        iterator.disableInteractive()
+        dropZones[0].disableInteractive()
+        dropZones[1].disableInteractive()
+        dropZones[2].disableInteractive()
+        instructions[0].disableInteractive()
+        instructions[1].disableInteractive()
+        instructions[2].disableInteractive()
 
         // Turn on btn_run
         btn.setFrame(1)
-        setTimeout(() => { btn.setFrame(0) }, 500 ) // turn off btn_run
+        setTimeout(() => { 
+            btn.setFrame(0) // turn off btn_run
+            iterator.setInteractive()
+            dropZones[0].setInteractive()
+            dropZones[1].setInteractive()
+            dropZones[2].setInteractive()
+            instructions[0].setInteractive()
+            instructions[1].setInteractive()
+            instructions[2].setInteractive()
+            btn.data.values.click = false
+        
+        }, timeAfter * (iterator.data.get('i') + 1) ) 
 
-        // Call one iteration Function Loop
-        forLoop(dropZones, player, instructions)
+
+
+        function iteratorLoop() {
+            
+            setTimeout(function() {
+                
+                if (!btn.data.get('click')) {
+                    return
+                }
+                // Call one iteration Function Loop
+                new forLoop(dropZones, player, instructions)
+                timeBefore = 3000
+                
+                i++
+                if (i <= iterator.data.get('i')) {           
+                    iteratorLoop();             
+                } 
+            },timeBefore)
+        }
+
+        iteratorLoop()
+        
         
     }
 }
