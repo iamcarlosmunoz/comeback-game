@@ -57,10 +57,18 @@ export default class GameUI extends Phaser.Scene {
         ).setOrigin(0.5).setDataEnabled().setInteractive()
         this.iterator_loop.data.set('i', 1)
 
+        // Add group of lights
+        this.actionLight_1 = this.add.sprite(this.dropX - 204, 491.5, 'action_light').setScale(0.5)
+        this.actionLight_2 = this.add.sprite(this.dropX - 204, 539, 'action_light').setScale(0.5)
+        this.actionLight_3 = this.add.sprite(this.dropX - 204, 587, 'action_light').setScale(0.5)
+
         //  Create GameObject DropZone
         this.dropZone_1 = new DropZone(this, this.dropX, 491.5, this.rectangleDropX, this.rectangleDropY, 1, this.colorDropZone, this.instructions_container)
         this.dropZone_2 = new DropZone(this, this.dropX, 540, this.rectangleDropX, this.rectangleDropY, 2, this.colorDropZone, this.instructions_container)
         this.dropZone_3 = new DropZone(this, this.dropX, 589.5, this.rectangleDropX, this.rectangleDropY, 3, this.colorDropZone, this.instructions_container)
+        
+        // Create array GameObject ActionLights
+        const action_lights = [this.actionLight_1, this.actionLight_2, this.actionLight_3]
 
         // Add elements instructions container
         this.instructions_container.add([
@@ -72,7 +80,10 @@ export default class GameUI extends Phaser.Scene {
             this.dropZone_2,
             this.dropZone_3,
             this.btn_run,
-            this.iterator_loop
+            this.iterator_loop,
+            this.actionLight_1,
+            this.actionLight_2,
+            this.actionLight_3
             ])
 
         //create state bar player
@@ -88,16 +99,19 @@ export default class GameUI extends Phaser.Scene {
                     this.dropZone_1.setInteractive()
                     this.dropZone_1.data.values.action = ''
                     gameObject.data.values.zone = 0
+                    action_lights[0].setFrame(0)
                     break;
                 case 2:
                     this.dropZone_2.setInteractive()
                     this.dropZone_2.data.values.action = ''
                     gameObject.data.values.zone = 0
+                    action_lights[1].setFrame(0)
                     break;
                 case 3:
                     this.dropZone_3.setInteractive()
                     this.dropZone_3.data.values.action = ''
                     gameObject.data.values.zone = 0
+                    action_lights[2].setFrame(0)
                     break;
             }
 
@@ -122,6 +136,10 @@ export default class GameUI extends Phaser.Scene {
             gameObject.data.values.zone = dropZone.data.get('name')
             dropZone.data.values.action = gameObject.data.get('action')
             dropZone.disableInteractive()
+
+            if (dropZone.data.get('action') !== ''){
+                action_lights[dropZone.data.get('name') - 1].setFrame(1)
+            }
 
         })
 

@@ -19,6 +19,7 @@ export default class Bootloader extends Phaser.Scene {
         this.load.spritesheet('left', 'sprites/instructions/left.png',{ frameWidth: 254, frameHeight: 62 })
         this.load.image('instructions_panel', 'sprites/instructions/panel.png')
         this.load.spritesheet('btn_run', 'sprites/instructions/btn_run.png',{ frameWidth: 146, frameHeight: 146 })
+        this.load.spritesheet('action_light', 'sprites/instructions/action_light.png',{ frameWidth: 40, frameHeight: 40 })
 
         //barra estado
         this.load.image('status_main','sprites/status/main.png')
