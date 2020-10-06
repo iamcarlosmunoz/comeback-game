@@ -47,8 +47,11 @@ const config = {
             gravity: { y: 500 },
             debug: false
         }
-    }
+    },
+    antialias: true
 }
+
+window.focus()
 
 // Create game app
 export default new Phaser.Game(config);

@@ -46,7 +46,7 @@ export default class GameUI extends Phaser.Scene {
 
         // Add button loop
         this.btn_run = this.add.sprite(1222,535,'btn_run').setInteractive().setDataEnabled().setScale(0.5).setDepth(1)
-        this.btn_run.data.set('click', false)
+        this.btn_run.data.set('status', 'run') // and stop
         
         // Add text iterator value
         this.iterator_loop = this.add.text(
@@ -55,7 +55,7 @@ export default class GameUI extends Phaser.Scene {
             '1',
             { font: '35px Arial', fill: '#ff2424' }
         ).setOrigin(0.5).setDataEnabled().setInteractive()
-        this.iterator_loop.data.set('i', 1)
+        this.iterator_loop.data.set('repeat', 1)
 
         // Add group of lights
         this.actionLight_1 = this.add.sprite(this.dropX - 204, 491.5, 'action_light').setScale(0.5)
@@ -161,96 +161,41 @@ export default class GameUI extends Phaser.Scene {
             this.iterator_loop.setStroke('#fff', 0).setShadow(2, 2, "#333333", 2, false, false)
         })
         this.iterator_loop.on('pointerdown', () => {
-            if (this.iterator_loop.data.get('i') < 5) {
-                this.iterator_loop.data.values.i = this.iterator_loop.data.get('i') + 1
+            if (this.iterator_loop.data.get('repeat') < 5) {
+                this.iterator_loop.data.values.repeat = this.iterator_loop.data.get('repeat') + 1
             } else {
-                this.iterator_loop.data.values.i = 1
+                this.iterator_loop.data.values.repeat = 1
             }
-            this.iterator_loop.setText(this.iterator_loop.data.get('i'))
+            this.iterator_loop.setText(this.iterator_loop.data.get('repeat'))
         })
         // CLICK FUNCTIONS UI
-        this.btn_run.on('pointerdown', () => this.clickHandler(
-            [
-                this.dropZone_1,
-                this.dropZone_2,
-                this.dropZone_3
-            ], 
-            [
-                this.right,
-                this.left,
-                this.jump,
-                
-            ],
-            this.btn_run,
-            this.gameScene,
-            this.iterator_loop
-        ), this)
+        this.btn_run.on('pointerup', () => {
+            // @ts-ignore
+            this.scene.get('Game').loopPlayer(
+                [
+                    this.dropZone_1,
+                    this.dropZone_2,
+                    this.dropZone_3
+                ], 
+                [
+                    this.right,
+                    this.left,
+                    this.jump,
+                    
+                ],
+                [
+                    this.actionLight_1,
+                    this.actionLight_2,
+                    this.actionLight_3
+                ],
+                this.iterator_loop,
+                this.btn_run             
+            )
+        })
+        
+        this.btn_run.on('changedata-status', () => {
+            console.log(this.btn_run.data.get('status'))
+        })
     
-    }
-
-
-    clickHandler(dropZones, instructions, btn, gameScene, iterator){
-
-        // @ts-ignore
-        const player = gameScene.getPlayer()
-        let timeAfter = 3000
-        let timeBefore = 0
-        let i = 0
-
-        // click data btn
-        if (!btn.data.get('click')){
-            btn.data.values.click = true
-        } else {
-            btn.data.values.click = false
-            timeAfter = 0
-        }
-
-        // disable input elements
-        iterator.disableInteractive()
-        dropZones[0].disableInteractive()
-        dropZones[1].disableInteractive()
-        dropZones[2].disableInteractive()
-        instructions[0].disableInteractive()
-        instructions[1].disableInteractive()
-        instructions[2].disableInteractive()
-
-        // Turn on btn_run
-        btn.setFrame(1)
-        setTimeout(() => { 
-            btn.setFrame(0) // turn off btn_run
-            iterator.setInteractive()
-            dropZones[0].setInteractive()
-            dropZones[1].setInteractive()
-            dropZones[2].setInteractive()
-            instructions[0].setInteractive()
-            instructions[1].setInteractive()
-            instructions[2].setInteractive()
-            btn.data.values.click = false
-        
-        }, timeAfter * (iterator.data.get('i') + 1) ) 
-
-
-
-        function iteratorLoop() {
-            
-            setTimeout(function() {
-                
-                if (!btn.data.get('click')) {
-                    return
-                }
-                // Call one iteration Function Loop
-                new forLoop(dropZones, player, instructions)
-                timeBefore = 3000
-                
-                i++
-                if (i <= iterator.data.get('i')) {           
-                    iteratorLoop();             
-                } 
-            },timeBefore)
-        }
-
-        iteratorLoop()
-        
-        
     }
 }
