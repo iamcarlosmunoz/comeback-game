@@ -26,6 +26,7 @@ export default class GameUI extends Phaser.Scene {
 
         // Propeties Instructions
         this.instructionX = 189
+        this.playerStartPosition = []
     }
 
     create() {
@@ -189,7 +190,8 @@ export default class GameUI extends Phaser.Scene {
                     this.actionLight_3
                 ],
                 this.iterator_loop,
-                this.btn_run             
+                this.btn_run,
+                this.playerStartPosition
             )
         })
         

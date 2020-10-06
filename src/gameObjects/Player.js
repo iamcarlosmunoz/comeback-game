@@ -73,9 +73,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             instructions[0].setFrame(1)
             instructions[2].setFrame(1)
             // Stop player and turn off indicators
-            sleep(500).then(() => { instructions[0].setFrame(0) })
-            sleep(1000).then(() => { this.move(''); instructions[2].setFrame(0) ; lights[2].setFrame(1) })
-            sleep(3000).then(() => { lights[2].setFrame(0) })
+            timeOne = setTimeout(() => { instructions[0].setFrame(0) }, 500)
+            timeTwo = setTimeout(() => { this.move(''); instructions[2].setFrame(0) ; lights[2].setFrame(1) }, 1000)
+            timeThree = setTimeout(() => { lights[2].setFrame(0) }, 3000)
         } else if (action === 'left' && action2 === 'jump' && action3 === '') {
             // Move Player
             this.move('left')
@@ -84,13 +84,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             instructions[1].setFrame(1)
             instructions[2].setFrame(1)
             // Stop player and turn off indicators
-            sleep(500).then(() => { instructions[1].setFrame(0) })
-            sleep(1000).then(() => { this.move(''); instructions[2].setFrame(0) ; lights[2].setFrame(1) })
-            sleep(3000).then(() => { lights[2].setFrame(0) })
-        }
-
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms))
+            timeOne = setTimeout(() => { instructions[1].setFrame(0) }, 500)
+            timeTwo = setTimeout(() => { this.move(''); instructions[2].setFrame(0) ; lights[2].setFrame(1) }, 1000)
+            timeThree = setTimeout(() => { lights[2].setFrame(0) }, 3000)
         }
     }
 

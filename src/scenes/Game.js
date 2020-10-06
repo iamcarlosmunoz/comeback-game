@@ -65,11 +65,15 @@ export default class Game extends Phaser.Scene {
         return this.astronaut
     }
 
-    loopPlayer(dropZones, instructions, lights, iterator, btn) {
+    loopPlayer(dropZones, instructions, lights, iterator, btn, startPosition) {
 
         if (btn.data.get('status') === 'run') {
             // turn on btn_run
             btn.setFrame(1)
+            // set Player Position
+            startPosition[0] = this.astronaut.x
+            startPosition[1] = this.astronaut.y
+            startPosition[2] = this.astronaut.flipX
             // config elements disable interactive
             resetStateElements('off')
             // timer for complete
@@ -91,8 +95,20 @@ export default class Game extends Phaser.Scene {
         } else if (btn.data.get('status') === 'stop') {
             // turn off btn_run
             btn.setFrame(0)
-            // config elements set interactive
-            resetStateElements('on', this.astronaut)
+            // animation player startPosition
+            this.tweens.add({
+                targets: this.astronaut,
+                x: startPosition[0],
+                y: startPosition[1],
+                flipX: startPosition[2],
+                duration: 1000,
+                ease: 'Power1',
+                onComplete: function (tween, targets) { 
+                    // config elements set interactive
+                    resetStateElements('on', targets[0])
+                }
+            })
+            
             // Stop timer loops
             clearTimeout(timerTurnOff)
             this.astronaut.stopTimerPlayer()
