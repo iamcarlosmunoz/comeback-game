@@ -201,7 +201,7 @@ export default class GameUI extends Phaser.Scene {
         })
         
         this.btn_restart.on('pointerdown', () => {
-            this.scene.start('Transition', { nextScene: 'Game'})
+            this.scene.run('Transition', { nextScene: 'Game'})
         })
     
     }

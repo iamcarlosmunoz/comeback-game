@@ -61,10 +61,6 @@ export default class Game extends Phaser.Scene {
 
     }
 
-    getPlayer(){
-        return this.astronaut
-    }
-
     loopPlayer(dropZones, instructions, lights, iterator, btn, startPosition) {
 
         if (btn.data.get('status') === 'run') {
