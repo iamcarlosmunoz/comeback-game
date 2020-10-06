@@ -4,11 +4,13 @@ import IntroGame from './scenes/IntroGame'
 import MenuGame from './scenes/MenuGame'
 import Game from './scenes/Game'
 import GameUI from './scenes/GameUI'
+import Trasition from './scenes/Transition'
 
 // Scenes
 let scenes = [
     Bootloader,
     IntroGame,
+    Trasition,
     MenuGame,
     Game,
     GameUI

@@ -87,8 +87,11 @@ export default class GameUI extends Phaser.Scene {
             this.actionLight_3
             ])
 
-        //create state bar player
+        //create state bar player  
         this.add.image(50,50,'status_main').setOrigin(0).setScale(0.4)
+
+        // btn restart Scene
+        this.btn_restart = this.add.rectangle(1500, 50 , 50,50, 0x242424).setOrigin(0).setInteractive()
 
         // DRAG AND DROP FUNCTIONS
         this.input.on('dragstart', function (pointer, gameObject) {
@@ -162,6 +165,7 @@ export default class GameUI extends Phaser.Scene {
             this.iterator_loop.setStroke('#fff', 0).setShadow(2, 2, "#333333", 2, false, false)
         })
         this.iterator_loop.on('pointerdown', () => {
+            
             if (this.iterator_loop.data.get('repeat') < 5) {
                 this.iterator_loop.data.values.repeat = this.iterator_loop.data.get('repeat') + 1
             } else {
@@ -169,6 +173,7 @@ export default class GameUI extends Phaser.Scene {
             }
             this.iterator_loop.setText(this.iterator_loop.data.get('repeat'))
         })
+
         // CLICK FUNCTIONS UI
         this.btn_run.on('pointerup', () => {
             // @ts-ignore
@@ -195,8 +200,8 @@ export default class GameUI extends Phaser.Scene {
             )
         })
         
-        this.btn_run.on('changedata-status', () => {
-            console.log(this.btn_run.data.get('status'))
+        this.btn_restart.on('pointerdown', () => {
+            this.scene.start('Transition', { nextScene: 'Game'})
         })
     
     }
