@@ -20,15 +20,11 @@ export default class Game extends Phaser.Scene {
         this.scene.run('GameUI')
 
         //  Set the camera and physics bounds 
-        this.cameras.main.setBounds(0, 0, 2000, 550);
-        this.physics.world.setBounds(0, 0, 2000, 550);
+        this.cameras.main.setBounds(0, 0, 3000, 550);
+        this.cameras.main.setZoom(1)
+        this.physics.world.setBounds(0, 0, 3000, 550);
 
-        // Controls
-        this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
-        this.left = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
-        this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
-
-        this.add.rectangle(0, 0, 2000,550, 0xff4242).setOrigin(0)
+        this.add.rectangle(0, 0, 3000,550, 0xff4242).setOrigin(0)
 
         // Create Text
         this.text = this.add.text(
@@ -39,22 +35,13 @@ export default class Game extends Phaser.Scene {
         ).setOrigin(0.5)
 
         // Create Player in Scene Game
-        this.astronaut = new Player(this, 200, 200, 'player',2, this.cameras)
+        this.astronaut = new Player(this, 200, 200, 'player',1.6, this.cameras.main)
 
 
     }
 
     update() {
 
-        // if (this.right.isDown) {
-        //     this.astronaut.move('right')
-        // } else if (this.left.isDown) {
-        //     this.astronaut.move('left')
-        // } else {
-        //     this.astronaut.move('')
-        // }
-        
-        // // @ts-ignore
         // if (this.up.isDown && this.astronaut.body.onFloor()) {
         //     this.astronaut.move('up')          
         // }

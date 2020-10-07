@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 
-let timeOne, timeTwo, timeThree
+let timeOne, timeTwo, timeThree, timeFour
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
 
@@ -17,10 +17,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.setCollideWorldBounds(true)
         this.setGravityY(1000)
 
-        cameras.main.startFollow(this, false, 0.05, 0.05)
+        cameras.startFollow(this, false, 0.05, 0.05)
 
     }
-
 
     move(direction) {
         switch(direction) {
@@ -47,25 +46,81 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         let action2 = dropZones[1].data.get('action')
         let action3 = dropZones[2].data.get('action')
 
-        if (action === 'right' && action2 === '' && action3 === '') {
+        if (action === 'right' && action2 === '' && action3 === '') { // RIGHT
             // Move Player
             this.move('right')
             // Turn on indicators
             instructions[0].setFrame(1)
             // Stop player and turn off indicators
-            timeOne = setTimeout(() => { this.move('');  instructions[0].setFrame(0); lights[1].setFrame(1) }, 500)
+            timeOne = setTimeout(() => { this.move(''); instructions[0].setFrame(0); lights[1].setFrame(1) }, 500)
             timeTwo = setTimeout(() => { lights[1].setFrame(0); lights[2].setFrame(1) }, 2000)
             timeThree = setTimeout(() => { lights[2].setFrame(0) }, 3000)
-        } else if (action === 'left' && action2 === '' && action3 === '') {
+        } else if (action === '' && action2 === '' && action3 === 'right') {
+            timeOne = setTimeout(() => { lights[0].setFrame(1) }, 1000)
+            timeTwo = setTimeout(() => { lights[0].setFrame(0); lights[1].setFrame(1) }, 2000)
+            timeThree = setTimeout(() => { this.move('right'); instructions[0].setFrame(1); lights[1].setFrame(0) }, 2500)
+            timeFour = setTimeout(() => { this.move(''); instructions[0].setFrame(0) }, 3000)
+        } else if (action === '' && action2 === 'right' && action3 === '') {
+            timeOne = setTimeout(() => { lights[0].setFrame(1) }, 1000)
+            timeTwo = setTimeout(() => { this.move('right'); instructions[0].setFrame(1); lights[0].setFrame(0) }, 1500)
+            timeThree = setTimeout(() => { this.move(''); instructions[0].setFrame(0); lights[2].setFrame(1) }, 2000)
+            timeFour = setTimeout(() => { lights[2].setFrame(0) }, 3000)
+        } else if (action === 'left' && action2 === '' && action3 === '') { // LEFT
             // Move Player
             this.move('left')
             // Turn on indicators
             instructions[1].setFrame(1)
             // Stop player and turn off indicators
-            timeOne = setTimeout(() => { this.move('');  instructions[1].setFrame(0); lights[1].setFrame(1) }, 500)
+            timeOne = setTimeout(() => { this.move(''); instructions[1].setFrame(0); lights[1].setFrame(1) }, 500)
             timeTwo = setTimeout(() => { lights[1].setFrame(0); lights[2].setFrame(1) }, 2000)
             timeThree = setTimeout(() => { lights[2].setFrame(0) }, 3000)
-        } else if (action === 'right' && action2 === 'jump' && action3 === '') {
+        } else if (action === '' && action2 === '' && action3 === 'left') {
+            timeOne = setTimeout(() => { lights[0].setFrame(1) }, 1000)
+            timeTwo = setTimeout(() => { lights[0].setFrame(0); lights[1].setFrame(1) }, 2000)
+            timeThree = setTimeout(() => { this.move('left'); instructions[1].setFrame(1); lights[1].setFrame(0) }, 2500)
+            timeFour = setTimeout(() => { this.move(''); instructions[1].setFrame(0) }, 3000)
+        } else if (action === '' && action2 === 'left' && action3 === '') {
+            timeOne = setTimeout(() => { lights[0].setFrame(1) }, 1000)
+            timeTwo = setTimeout(() => { this.move('left'); instructions[1].setFrame(1); lights[0].setFrame(0) }, 1500)
+            timeThree = setTimeout(() => { this.move(''); instructions[1].setFrame(0); lights[2].setFrame(1) }, 2000)
+            timeFour = setTimeout(() => { lights[2].setFrame(0) }, 3000)
+        } else if (action === 'right' && action2 === 'left' && action3 === '') { // RIGHT AND LEFT
+            // Move Player
+            this.move('right')
+            // Turn on indicators
+            instructions[0].setFrame(1)
+            // Stop player and turn off indicators
+            timeOne = setTimeout(() => { this.move('left'); instructions[0].setFrame(0); instructions[1].setFrame(1) }, 500)
+            timeTwo = setTimeout(() => { this.move('');instructions[1].setFrame(0); lights[2].setFrame(1) }, 1000)
+            timeThree = setTimeout(() => { lights[2].setFrame(0) }, 3000)
+        } else if (action === 'left' && action2 === 'right' && action3 === '') {
+            // Move Player
+            this.move('left')
+            // Turn on indicators
+            instructions[1].setFrame(1)
+            // Stop player and turn off indicators
+            timeOne = setTimeout(() => { this.move('right'); instructions[1].setFrame(0); instructions[0].setFrame(1) }, 500)
+            timeTwo = setTimeout(() => { this.move('');instructions[0].setFrame(0); lights[2].setFrame(1) }, 1000)
+            timeThree = setTimeout(() => { lights[2].setFrame(0) }, 3000)
+        } else if (action === 'right' && action2 === '' && action3 === 'left') {
+            // Move Player
+            this.move('right')
+            // Turn on indicators
+            instructions[0].setFrame(1)
+            // Stop player and turn off indicators
+            timeOne = setTimeout(() => { this.move(''); instructions[0].setFrame(0); lights[1].setFrame(1) }, 500)
+            timeTwo = setTimeout(() => { this.move('left'); instructions[1].setFrame(1); lights[1].setFrame(0) }, 1500)
+            timeThree = setTimeout(() => { this.move(''); instructions[1].setFrame(0) }, 2000)
+        } else if (action === 'left' && action2 === '' && action3 === 'right') {
+            // Move Player
+            this.move('left')
+            // Turn on indicators
+            instructions[1].setFrame(1)
+            // Stop player and turn off indicators
+            timeOne = setTimeout(() => { this.move(''); instructions[1].setFrame(0); lights[1].setFrame(1) }, 500)
+            timeTwo = setTimeout(() => { this.move('right'); instructions[0].setFrame(1); lights[1].setFrame(0) }, 1500)
+            timeThree = setTimeout(() => { this.move(''); instructions[0].setFrame(0) }, 2000)
+        } else if (action === 'right' && action2 === 'jump' && action3 === '') { // LONG JUMP
             // Move Player
             this.move('right')
             this.move('jump')
@@ -87,6 +142,24 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             timeOne = setTimeout(() => { instructions[1].setFrame(0) }, 500)
             timeTwo = setTimeout(() => { this.move(''); instructions[2].setFrame(0) ; lights[2].setFrame(1) }, 1000)
             timeThree = setTimeout(() => { lights[2].setFrame(0) }, 3000)
+        } else if (action === 'jump' && action2 === 'right' && action3 === '') { // SHORT JUMP
+            // Move Player
+            this.move('jump')
+            // Turn on indicators
+            instructions[2].setFrame(1)
+            // Stop player and turn off indicators
+            timeOne = setTimeout(() => { this.move('right'); instructions[0].setFrame(1) }, 500)
+            timeTwo = setTimeout(() => { this.move(''); instructions[2].setFrame(0); instructions[0].setFrame(0); lights[2].setFrame(1) }, 1000)
+            timeThree = setTimeout(() => { lights[2].setFrame(0) }, 2000)
+        } else if (action === 'jump' && action2 === 'left' && action3 === '') {
+            // Move Player
+            this.move('jump')
+            // Turn on indicators
+            instructions[2].setFrame(1)
+            // Stop player and turn off indicators
+            timeOne = setTimeout(() => { this.move('left'); instructions[1].setFrame(1) }, 500)
+            timeTwo = setTimeout(() => { this.move(''); instructions[2].setFrame(0); instructions[1].setFrame(0); lights[2].setFrame(1) }, 1000)
+            timeThree = setTimeout(() => { lights[2].setFrame(0) }, 2000)
         }
     }
 
@@ -94,5 +167,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         clearTimeout(timeOne)
         clearTimeout(timeTwo)
         clearTimeout(timeThree)
+        clearTimeout(timeFour)
     }
 }
