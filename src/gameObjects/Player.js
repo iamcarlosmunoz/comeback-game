@@ -16,6 +16,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.setOrigin(0.5)
         this.setCollideWorldBounds(true)
         this.setGravityY(1000)
+        this.body.setSize(40, 110)
+        this.body.setOffset(50,10)
+
+        // set Anims Player
+        scene.dataAnim = scene.cache.json.get('astronaut_anim')
+        scene.anims.fromJSON(scene.dataAnim)
+        this.anims.play('idle')
 
         cameras.startFollow(this, false, 0.05, 0.05)
 
@@ -24,17 +31,21 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     move(direction) {
         switch(direction) {
             case 'right':
+                this.anims.play('walk')
                 this.setVelocityX(600)
                 this.flipX = false
                 break
             case 'left':
+                this.anims.play('walk')
                 this.setVelocityX(-600)
                 this.flipX = true
                 break
             case 'jump':
+                this.anims.play('jump')
                 this.setVelocityY(-700)
                 break
             default:
+                this.anims.play('idle')
                 this.setVelocityX(0)
                 break
         }

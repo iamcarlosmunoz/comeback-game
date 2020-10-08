@@ -26,14 +26,14 @@ export default class Game extends Phaser.Scene {
 
         // Set scene art
         this.background = this.add.image(0,0, 'background').setOrigin(0)
-        this.stars = this.add.image(0,0, 'stars').setOrigin(0)
+        this.stars = this.add.tileSprite(0, 0, 4000, 650, 'stars').setOrigin(0).setScrollFactor(0)
         this.wall = this.add.image(0, 0, 'wall').setOrigin(0)
         this.pipeline = this.add.image(0, 0, 'pipeline').setOrigin(0)
-        this.floor = this.physics.add.image(0, 572, 'floor').setOrigin(0).setImmovable(true).setCollideWorldBounds(true).setScale(0.76)
+        this.floor = this.physics.add.image(0, 572, 'floor').setOrigin(0).setImmovable(true).setCollideWorldBounds(true).setBodySize(4000, 328, false)
 
         // Create Player in Scene Game
-        this.astronaut = new Player(this, 200, 200, 'player',1.6, this.cameras.main)
-        this.curve = this.add.image(0, 0, 'curve').setOrigin(0)
+        this.astronaut = new Player(this, 200, 200, 'astronaut',1.5, this.cameras.main)
+        this.curve = this.add.tileSprite(0, 0, 4000, 650, 'curve').setOrigin(0).setScrollFactor(0)
 
         // Set Physics Game
         this.physics.add.collider(this.astronaut,this.floor)
@@ -41,9 +41,8 @@ export default class Game extends Phaser.Scene {
 
     update() {
 
-        // if (this.up.isDown && this.astronaut.body.onFloor()) {
-        //     this.astronaut.move('up')          
-        // }
+        this.stars.tilePositionX = this.cameras.main.scrollX * .3
+        this.curve.tilePositionX = this.cameras.main.scrollX * .5
 
     }
 

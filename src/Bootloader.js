@@ -31,9 +31,13 @@ export default class Bootloader extends Phaser.Scene {
         this.load.image('pipeline', 'sprites/background/pipeline.png')
         this.load.image('floor', 'sprites/background/floor.png')
         this.load.image('curve', 'sprites/background/curve.png')
+        
+        // Player
+        this.load.atlas('astronaut', 'sprites/astronaut/astronaut.png', 'sprites/astronaut/astronaut_atlas.json')
+        this.load.json('astronaut_anim', 'sprites/astronaut/astronaut_anim.json')
 
         this.load.on('complete', () => {
-            this.scene.start('Transition', { nextScene: 'Game'})
+            this.scene.start('IntroGame')
         })
     }
 }

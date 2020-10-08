@@ -51,7 +51,7 @@ export default class IntroGame extends Phaser.Scene {
             duration: 1000,
             delay: 1500,
             onComplete: () => {
-                this.scene.start('MenuGame')
+                this.scene.start('Transition', { nextScene: 'Game'})
             }
         })
 
