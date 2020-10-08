@@ -24,6 +24,14 @@ export default class Bootloader extends Phaser.Scene {
         //barra estado
         this.load.image('status_main','sprites/status/main.png')
 
+        // Background
+        this.load.image('background', 'sprites/background/background.png')
+        this.load.image('stars', 'sprites/background/stars.png')
+        this.load.image('wall', 'sprites/background/wall.png')
+        this.load.image('pipeline', 'sprites/background/pipeline.png')
+        this.load.image('floor', 'sprites/background/floor.png')
+        this.load.image('curve', 'sprites/background/curve.png')
+
         this.load.on('complete', () => {
             this.scene.start('Transition', { nextScene: 'Game'})
         })

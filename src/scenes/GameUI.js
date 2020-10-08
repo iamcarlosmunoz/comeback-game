@@ -31,7 +31,7 @@ export default class GameUI extends Phaser.Scene {
 
     create() {
         // Rectangle Background
-        this.add.rectangle(0, 550, this.scale.width, 400, 0x242424).setOrigin(0)
+        // this.add.rectangle(0, 650, this.scale.width, 400, 0x242424).setOrigin(0)
 
         // Create Instructions Panel and container
         this.instructions_container = this.add.container(100, 215).setDepth(1)

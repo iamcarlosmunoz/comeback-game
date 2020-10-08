@@ -20,24 +20,23 @@ export default class Game extends Phaser.Scene {
         this.scene.run('GameUI')
 
         //  Set the camera and physics bounds 
-        this.cameras.main.setBounds(0, 0, 3000, 550);
+        this.cameras.main.setBounds(0, 0, 4000, 650);
         this.cameras.main.setZoom(1)
-        this.physics.world.setBounds(0, 0, 3000, 550);
+        this.physics.world.setBounds(0, 0, 4000, 900);
 
-        this.add.rectangle(0, 0, 3000,550, 0xff4242).setOrigin(0)
-
-        // Create Text
-        this.text = this.add.text(
-            this.centerX,
-            260,
-            'GAMEPLAY',
-            { font: '70px San Serif', fill: '#fff' }
-        ).setOrigin(0.5)
+        // Set scene art
+        this.background = this.add.image(0,0, 'background').setOrigin(0)
+        this.stars = this.add.image(0,0, 'stars').setOrigin(0)
+        this.wall = this.add.image(0, 0, 'wall').setOrigin(0)
+        this.pipeline = this.add.image(0, 0, 'pipeline').setOrigin(0)
+        this.floor = this.physics.add.image(0, 572, 'floor').setOrigin(0).setImmovable(true).setCollideWorldBounds(true).setScale(0.76)
 
         // Create Player in Scene Game
         this.astronaut = new Player(this, 200, 200, 'player',1.6, this.cameras.main)
+        this.curve = this.add.image(0, 0, 'curve').setOrigin(0)
 
-
+        // Set Physics Game
+        this.physics.add.collider(this.astronaut,this.floor)
     }
 
     update() {
