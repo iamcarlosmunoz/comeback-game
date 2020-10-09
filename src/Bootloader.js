@@ -7,13 +7,14 @@ export default class Bootloader extends Phaser.Scene {
     }
 
     preload() {
+        // Logos
         this.load.path = 'images/'
         this.load.image('logo_phaser', 'logos/phaser.png')
         this.load.image('logo_bestcresw', 'logos/bestcrew-studios.png')
         this.load.image('btn_fullscreen', 'icons/maximize.png')
         this.load.image('player', 'sprites/bird.png')
 
-        // Intrucciones
+        // Instructions
         this.load.spritesheet('right', 'sprites/instructions/right.png',{ frameWidth: 254, frameHeight: 62 })
         this.load.spritesheet('jump', 'sprites/instructions/jump.png',{ frameWidth: 254, frameHeight: 62 })
         this.load.spritesheet('left', 'sprites/instructions/left.png',{ frameWidth: 254, frameHeight: 62 })
@@ -21,7 +22,7 @@ export default class Bootloader extends Phaser.Scene {
         this.load.spritesheet('btn_run', 'sprites/instructions/btn_run.png',{ frameWidth: 146, frameHeight: 146 })
         this.load.spritesheet('action_light', 'sprites/instructions/action_light.png',{ frameWidth: 40, frameHeight: 40 })
 
-        //barra estado
+        // Status bar
         this.load.image('status_main','sprites/status/main.png')
 
         // Background
