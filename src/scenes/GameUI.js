@@ -103,19 +103,19 @@ export default class GameUI extends Phaser.Scene {
                     this.dropZone_1.data.values.action = ''
                     gameObject.data.values.zone = 0
                     action_lights[0].setFrame(0)
-                    break;
+                    break
                 case 2:
                     this.dropZone_2.setInteractive()
                     this.dropZone_2.data.values.action = ''
                     gameObject.data.values.zone = 0
                     action_lights[1].setFrame(0)
-                    break;
+                    break
                 case 3:
                     this.dropZone_3.setInteractive()
                     this.dropZone_3.data.values.action = ''
                     gameObject.data.values.zone = 0
                     action_lights[2].setFrame(0)
-                    break;
+                    break
             }
 
         }, this)

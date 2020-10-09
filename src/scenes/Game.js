@@ -48,7 +48,9 @@ export default class Game extends Phaser.Scene {
 
     loopPlayer(dropZones, instructions, lights, iterator, btn, startPosition) {
 
-        if (btn.data.get('status') === 'run') {
+        let drop = dropZones[0].data.get('action') + dropZones[1].data.get('action') + dropZones[2].data.get('action')
+
+        if (btn.data.get('status') === 'run' && drop !== '') {
             // turn on btn_run
             btn.setFrame(1)
             // set Player Position
@@ -77,18 +79,11 @@ export default class Game extends Phaser.Scene {
             // turn off btn_run
             btn.setFrame(0)
             // animation player startPosition
-            this.tweens.add({
-                targets: this.astronaut,
-                x: startPosition[0],
-                y: startPosition[1],
-                flipX: startPosition[2],
-                duration: 1000,
-                ease: 'Power1',
-                onComplete: function (tween, targets) { 
-                    // config elements set interactive
-                    resetStateElements('on', targets[0])
-                }
-            })
+            this.astronaut.move('')
+            this.astronaut.setX(startPosition[0])
+            this.astronaut.setY(startPosition[1] - 300)
+            this.astronaut.flipX = startPosition[2]
+            resetStateElements('on', this.astronaut)
             
             // Stop timer loops
             clearTimeout(timerTurnOff)
@@ -110,6 +105,8 @@ export default class Game extends Phaser.Scene {
                 instructions[2].disableInteractive()
             } else if (state === 'on') {
 
+                player.move('')
+
                 let i = 0
 
                 instructions.map(element => {
@@ -124,8 +121,6 @@ export default class Game extends Phaser.Scene {
                     }
                     i++ // temp
                 })
-
-                player.move('')
 
                 iterator.setInteractive()
                 dropZones[0].setInteractive()
