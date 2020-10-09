@@ -28,12 +28,30 @@ export default class Game extends Phaser.Scene {
         this.background = this.add.image(0,0, 'background').setOrigin(0)
         this.stars = this.add.tileSprite(0, 0, 4000, 650, 'stars').setOrigin(0).setScrollFactor(0)
         this.wall = this.add.image(0, 0, 'wall').setOrigin(0)
-        this.pipeline = this.add.image(0, 0, 'pipeline').setOrigin(0)
-        this.floor = this.physics.add.image(0, 572, 'floor').setOrigin(0).setImmovable(true).setCollideWorldBounds(true).setBodySize(4000, 328, false)
+        this.lamp_001 = this.add.image(993, 320, 'lamp').setOrigin(0.5)
+        this.lamp_002 = this.add.image(this.lamp_001.x + 983, 320, 'lamp').setOrigin(0.5)
+        this.lamp_003 = this.add.image(this.lamp_002.x + 983, 320, 'lamp').setOrigin(0.5)
+
+        this.light_001 = this.add.image(this.lamp_001.x,this.lamp_001.y, 'light').setOrigin(0.5)
+        this.light_002 = this.add.image(this.lamp_002.x,this.lamp_002.y, 'light').setOrigin(0.5)
+        this.light_003 = this.add.image(this.lamp_003.x,this.lamp_003.y, 'light').setOrigin(0.5)
+        this.animation_light_001 = this.tweens.add({
+            targets: [this.light_001, this.light_002, this.light_003],
+            alpha: { from: 1, to: 0.6 },
+            duration: 500,
+            repeatDelay: 5000,
+            repeat: -1,
+            yoyo: true,
+            ease: 'Power2'
+        })
 
         // Create Player in Scene Game
         this.astronaut = new Player(this, 200, 200, 'astronaut',1.5, this.cameras.main)
-        this.curve = this.add.tileSprite(0, 0, 4000, 650, 'curve').setOrigin(0).setScrollFactor(0)
+
+        // Foreground
+        this.pipeline = this.add.image(0, 0, 'pipeline').setOrigin(0)
+        this.floor = this.physics.add.image(0, 572, 'floor').setOrigin(0).setImmovable(true).setCollideWorldBounds(true).setBodySize(4000, 328, false)
+        this.curve = this.add.tileSprite(0, 0, 4000, 900, 'curve').setOrigin(0).setScrollFactor(0)
 
         // Set Physics Game
         this.physics.add.collider(this.astronaut,this.floor)
@@ -41,8 +59,9 @@ export default class Game extends Phaser.Scene {
 
     update() {
 
+        // Effect Parallax
         this.stars.tilePositionX = this.cameras.main.scrollX * .3
-        this.curve.tilePositionX = this.cameras.main.scrollX * .5
+        this.curve.tilePositionX = this.cameras.main.scrollX * .8
 
     }
 
