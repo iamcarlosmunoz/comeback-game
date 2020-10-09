@@ -32,17 +32,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         switch(direction) {
             case 'right':
                 this.anims.play('walk')
-                this.setVelocityX(600)
+                this.setVelocityX(400)
                 this.flipX = false
                 break
             case 'left':
                 this.anims.play('walk')
-                this.setVelocityX(-600)
+                this.setVelocityX(-400)
                 this.flipX = true
                 break
             case 'jump':
                 this.anims.play('jump')
-                this.setVelocityY(-700)
+                this.setVelocityY(-800)
                 break
             default:
                 this.anims.play('idle')

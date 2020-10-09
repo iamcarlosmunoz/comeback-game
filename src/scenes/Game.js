@@ -48,13 +48,24 @@ export default class Game extends Phaser.Scene {
         // Create Player in Scene Game
         this.astronaut = new Player(this, 200, 200, 'astronaut',1.5, this.cameras.main)
 
+        // Obstacles
+        this.obstacle_001 = this.physics.add.staticSprite(1000, 600, 'obstacle_001')
+        this.obstacle_001.body.setSize(320, 407)
+        this.obstacle_001.body.setOffset(20, 0)
+
+        this.obstacle_002 = this.physics.add.staticSprite(1300, 500, 'obstacle_001')
+        this.obstacle_002.body.setSize(320, 407)
+        this.obstacle_002.body.setOffset(20, 0)
+
         // Foreground
         this.pipeline = this.add.image(0, 0, 'pipeline').setOrigin(0)
         this.floor = this.physics.add.image(0, 572, 'floor').setOrigin(0).setImmovable(true).setCollideWorldBounds(true).setBodySize(4000, 328, false)
-        this.curve = this.add.tileSprite(0, 0, 4000, 900, 'curve').setOrigin(0).setScrollFactor(0)
+        this.curve = this.add.tileSprite(0, 100, 4000, 800, 'curve').setOrigin(0).setScrollFactor(0)
 
         // Set Physics Game
         this.physics.add.collider(this.astronaut,this.floor)
+        this.physics.add.collider(this.astronaut,this.obstacle_001)
+        this.physics.add.collider(this.astronaut,this.obstacle_002)
     }
 
     update() {
