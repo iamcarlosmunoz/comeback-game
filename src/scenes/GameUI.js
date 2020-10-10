@@ -31,7 +31,7 @@ export default class GameUI extends Phaser.Scene {
     create() {
 
         // Create Instructions Panel and container
-        this.instructions_container = this.add.container(100, 215).setDepth(1)
+        this.instructions_container = this.add.container(100, 170).setDepth(1).setScale(0.8)
         this.instructions_panel = this.add.image(34,344.5,'instructions_panel').setOrigin(0).setDepth(1).setScale(0.5)
         
         // Create GameObject Instruction
@@ -48,7 +48,7 @@ export default class GameUI extends Phaser.Scene {
         
         // Add text iterator value
         this.iterator_loop = this.add.text(
-            this.scale.width - 586, // x position
+            this.scale.width - 265, // x position
             418, // y position
             '1',
             { font: '35px Arial', fill: '#ff2424' }
@@ -88,7 +88,7 @@ export default class GameUI extends Phaser.Scene {
         this.add.image(50,50,'status_main').setOrigin(0).setScale(0.4)
 
         // btn restart Scene
-        this.btn_restart = this.add.rectangle(1500, 50 , 50,50, 0x242424).setOrigin(0).setInteractive()
+        this.btn_restart = this.add.rectangle(1180, 40 , 50,50, 0x242424).setOrigin(0).setInteractive()
 
         // DRAG AND DROP FUNCTIONS
         this.input.on('dragstart', function (pointer, gameObject) {

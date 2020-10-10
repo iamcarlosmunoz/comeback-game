@@ -20,21 +20,20 @@ export default class Game extends Phaser.Scene {
         this.scene.run('GameUI')
 
         //  Set the camera and physics bounds 
-        this.cameras.main.setBounds(0, 0, 4000, 650);
-        this.cameras.main.setZoom(1)
-        this.physics.world.setBounds(0, 0, 4000, 900);
+        this.cameras.main.setBounds(0, 0, 3200, 720);
+        this.physics.world.setBounds(0, 0, 3200, 720);
 
         // Set scene art
-        this.background = this.add.image(0,0, 'background').setOrigin(0)
-        this.stars = this.add.tileSprite(0, 0, 4000, 650, 'stars').setOrigin(0).setScrollFactor(0)
-        this.wall = this.add.image(0, 0, 'wall').setOrigin(0)
-        this.lamp_001 = this.add.image(993, 320, 'lamp').setOrigin(0.5)
-        this.lamp_002 = this.add.image(this.lamp_001.x + 983, 320, 'lamp').setOrigin(0.5)
-        this.lamp_003 = this.add.image(this.lamp_002.x + 983, 320, 'lamp').setOrigin(0.5)
+        this.background = this.add.image(0,150, 'background').setOrigin(0).setScale(0.8)
+        this.stars = this.add.tileSprite(0, 150, 3200, 650, 'stars').setOrigin(0).setScrollFactor(0).setScale(0.5)
+        this.wall = this.add.image(0, 0, 'wall').setOrigin(0).setScale(0.8)
+        this.lamp_001 = this.add.image(794, 240, 'lamp').setOrigin(0.5).setScale(0.8)
+        this.lamp_002 = this.add.image(this.lamp_001.x + 787, 240, 'lamp').setOrigin(0.5).setScale(0.8)
+        this.lamp_003 = this.add.image(this.lamp_002.x + 785, 240, 'lamp').setOrigin(0.5).setScale(0.8)
 
-        this.light_001 = this.add.image(this.lamp_001.x,this.lamp_001.y, 'light').setOrigin(0.5)
-        this.light_002 = this.add.image(this.lamp_002.x,this.lamp_002.y, 'light').setOrigin(0.5)
-        this.light_003 = this.add.image(this.lamp_003.x,this.lamp_003.y, 'light').setOrigin(0.5)
+        this.light_001 = this.add.image(this.lamp_001.x,this.lamp_001.y, 'light').setOrigin(0.5).setScale(0.8)
+        this.light_002 = this.add.image(this.lamp_002.x,this.lamp_002.y, 'light').setOrigin(0.5).setScale(0.8)
+        this.light_003 = this.add.image(this.lamp_003.x,this.lamp_003.y, 'light').setOrigin(0.5).setScale(0.8)
         this.animation_light_001 = this.tweens.add({
             targets: [this.light_001, this.light_002, this.light_003],
             alpha: { from: 1, to: 0.6 },
@@ -49,30 +48,36 @@ export default class Game extends Phaser.Scene {
         this.astronaut = new Player(this, 200, 200, 'astronaut',1.5, this.cameras.main)
 
         // Obstacles
-        this.obstacle_001 = this.physics.add.staticSprite(1000, 600, 'obstacle_001')
-        this.obstacle_001.body.setSize(320, 407)
-        this.obstacle_001.body.setOffset(20, 0)
+        this.obstacle_001 = this.physics.add.staticSprite(450, 500, 'obstacle_001').setScale(0.8)
+        this.obstacle_001.body.setSize(252, 350)
+        this.obstacle_001.body.setOffset(50, 40)
 
-        this.obstacle_002 = this.physics.add.staticSprite(1300, 500, 'obstacle_001')
-        this.obstacle_002.body.setSize(320, 407)
-        this.obstacle_002.body.setOffset(20, 0)
+        this.obstacle_002 = this.physics.add.staticSprite(1110, 500, 'obstacle_001').setScale(0.8)
+        this.obstacle_002.body.setSize(252, 350)
+        this.obstacle_002.body.setOffset(50, 40)
+
+        this.obstacle_003 = this.physics.add.staticSprite(1350, 400, 'obstacle_001').setScale(0.8)
+        this.obstacle_003.body.setSize(252, 350)
+        this.obstacle_003.body.setOffset(50, 40)
 
         // Foreground
-        this.pipeline = this.add.image(0, 0, 'pipeline').setOrigin(0)
-        this.floor = this.physics.add.image(0, 572, 'floor').setOrigin(0).setImmovable(true).setCollideWorldBounds(true).setBodySize(4000, 328, false)
-        this.curve = this.add.tileSprite(0, 100, 4000, 800, 'curve').setOrigin(0).setScrollFactor(0)
+        this.pipeline = this.add.image(0, 0, 'pipeline').setOrigin(0).setScale(0.8)
+        this.floor = this.physics.add.image(0, 458, 'floor').setOrigin(0).setImmovable(true).setCollideWorldBounds(true).setBodySize(4000, 328, false).setScale(0.8)
+        this.curve = this.add.tileSprite(0, 100, 4000, 800, 'curve').setOrigin(0).setScrollFactor(1).setScale(0.8)
 
         // Set Physics Game
         this.physics.add.collider(this.astronaut,this.floor)
         this.physics.add.collider(this.astronaut,this.obstacle_001)
         this.physics.add.collider(this.astronaut,this.obstacle_002)
+        this.physics.add.collider(this.astronaut,this.obstacle_003)
+
+        console.log(this.game.loop.actualFps)
     }
 
     update() {
 
         // Effect Parallax
         this.stars.tilePositionX = this.cameras.main.scrollX * .3
-        this.curve.tilePositionX = this.cameras.main.scrollX * .8
 
     }
 
