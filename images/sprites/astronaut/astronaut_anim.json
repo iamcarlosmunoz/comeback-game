@@ -1,50 +1,10 @@
 {
     "anims": [
         {
-            "key": "jump",
-            "type": "frames",
-            "repeat": 0,
-            "frameRate": 10, 
-            "frames": [
-                {
-                    "key": "astronaut",
-                    "frame": "jump_0"
-                },
-                {
-                    "key": "astronaut",
-                    "frame": "jump_1"
-                },
-                {
-                    "key": "astronaut",
-                    "frame": "jump_2"
-                },
-                {
-                    "key": "astronaut",
-                    "frame": "jump_3"
-                },
-                {
-                    "key": "astronaut",
-                    "frame": "jump_4"
-                },
-                {
-                    "key": "astronaut",
-                    "frame": "jump_5"
-                },
-                {
-                    "key": "astronaut",
-                    "frame": "jump_6"
-                },
-                {
-                    "key": "astronaut",
-                    "frame": "jump_7"
-                }
-            ]
-        },
-        {
             "key": "walk",
             "type": "frames",
-            "repeat": -1,
-            "frameRate": 14,
+            "repeat": 0,
+            "frameRate": 10,
             "frames": [
                 {
                     "key": "astronaut",
@@ -77,6 +37,78 @@
                 {
                     "key": "astronaut",
                     "frame": "walk_7"
+                }
+            ]
+        },
+        {
+            "key": "jump_short",
+            "type": "frames",
+            "repeat": 0,
+            "frameRate": 8,
+            "frames": [
+                {
+                    "key": "astronaut",
+                    "frame": "jump_short_1"
+                },
+                {
+                    "key": "astronaut",
+                    "frame": "jump_short_2"
+                },
+                {
+                    "key": "astronaut",
+                    "frame": "jump_short_3"
+                },
+                {
+                    "key": "astronaut",
+                    "frame": "jump_short_4"
+                },
+                {
+                    "key": "astronaut",
+                    "frame": "jump_short_5"
+                },
+                {
+                    "key": "astronaut",
+                    "frame": "jump_short_6"
+                },
+                {
+                    "key": "astronaut",
+                    "frame": "jump_short_7"
+                }
+            ]
+        },
+        {
+            "key": "jump",
+            "type": "frames",
+            "repeat": 0,
+            "frameRate": 10,
+            "frames": [
+                {
+                    "key": "astronaut",
+                    "frame": "jump_1"
+                },
+                {
+                    "key": "astronaut",
+                    "frame": "jump_2"
+                },
+                {
+                    "key": "astronaut",
+                    "frame": "jump_3"
+                },
+                {
+                    "key": "astronaut",
+                    "frame": "jump_4"
+                },
+                {
+                    "key": "astronaut",
+                    "frame": "jump_5"
+                },
+                {
+                    "key": "astronaut",
+                    "frame": "jump_6"
+                },
+                {
+                    "key": "astronaut",
+                    "frame": "jump_7"
                 }
             ]
         },
