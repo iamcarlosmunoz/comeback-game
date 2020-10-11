@@ -4,174 +4,215 @@ let timeOne, timeTwo, timeThree, timeFour
 
 export default class Player extends Phaser.Physics.Arcade.Sprite {
 
-    constructor(scene, x, y, type, scale, cameras) {
-        super(scene, x, y, type)
+    constructor(config) {
+        super(config.scene, config.x, config.y, config.type)
+
+        this.setData({
+			speed: 200,
+			jumpSpeed: 550,
+			gravity: 800
+		})
+
+        // set Anims Player
+        config.scene.dataAnim = config.scene.cache.json.get('astronaut_anim')
+        config.scene.anims.fromJSON(config.scene.dataAnim)
 
         // Add Sprite 
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
-        
+        config.scene.add.existing(this)
+        config.scene.physics.add.existing(this)
+        this.create(config)
+
+    }
+
+    create(config) {
+
         // set Properties
-        this.setScale(scale)
+        this.setScale(config.scale)
         this.setOrigin(0.5)
         this.setCollideWorldBounds(true)
-        this.setGravityY(1000)
+        this.setGravityY(this.data.values.gravity)
         this.body.setSize(40, 110)
         this.body.setOffset(50,10)
 
-        // set Anims Player
-        scene.dataAnim = scene.cache.json.get('astronaut_anim')
-        scene.anims.fromJSON(scene.dataAnim)
+        // set anim
         this.anims.play('idle')
-
-        cameras.startFollow(this, false, 0.05, 0.05)
 
     }
 
     move(direction) {
-        switch(direction) {
-            case 'right':
-                this.anims.play('walk')
-                this.setVelocityX(400)
-                this.flipX = false
-                break
-            case 'left':
-                this.anims.play('walk')
-                this.setVelocityX(-400)
-                this.flipX = true
-                break
-            case 'jump':
-                this.anims.play('jump')
-                this.setVelocityY(-800)
-                break
-            default:
-                this.anims.play('idle')
-                this.setVelocityX(0)
-                break
+        if (direction == 'STOP') {
+            this.setVelocityX(0)
+            this.data.values.speed = 200
+            this.data.values.jumpSpeed = 550 
+            this.anims.play('idle')
+        }
+        
+        if (direction == 'LEFT') {
+            this.setVelocityX(-this.data.values.speed)
+            this.setFlipX(true)
+            this.anims.play('walk')
+        }
+        else if (direction == 'RIGHT') {
+            this.setVelocityX(this.data.values.speed)
+            this.setFlipX(false)
+            this.anims.play('walk')
+        }
+
+        if (direction == 'JUMP') {
+            this.setVelocityY(-this.data.values.jumpSpeed)
+            this.anims.play('jump')
         }
     }
 
-    movePlayer(dropZones, instructions, lights) {
+    movePlayer(game) {
 
-        let action = dropZones[0].data.get('action')
-        let action2 = dropZones[1].data.get('action')
-        let action3 = dropZones[2].data.get('action')
+        let moves = game.dropZones[0].data.get('action') + game.dropZones[1].data.get('action') + game.dropZones[2].data.get('action')
 
-        if (action === 'right' && action2 === '' && action3 === '') { // RIGHT
-            // Move Player
-            this.move('right')
-            // Turn on indicators
-            instructions[0].setFrame(1)
-            // Stop player and turn off indicators
-            timeOne = setTimeout(() => { this.move(''); instructions[0].setFrame(0); lights[1].setFrame(1) }, 500)
-            timeTwo = setTimeout(() => { lights[1].setFrame(0); lights[2].setFrame(1) }, 2000)
-            timeThree = setTimeout(() => { lights[2].setFrame(0) }, 3000)
-        } else if (action === '' && action2 === '' && action3 === 'right') {
-            timeOne = setTimeout(() => { lights[0].setFrame(1) }, 1000)
-            timeTwo = setTimeout(() => { lights[0].setFrame(0); lights[1].setFrame(1) }, 2000)
-            timeThree = setTimeout(() => { this.move('right'); instructions[0].setFrame(1); lights[1].setFrame(0) }, 2500)
-            timeFour = setTimeout(() => { this.move(''); instructions[0].setFrame(0) }, 3000)
-        } else if (action === '' && action2 === 'right' && action3 === '') {
-            timeOne = setTimeout(() => { lights[0].setFrame(1) }, 1000)
-            timeTwo = setTimeout(() => { this.move('right'); instructions[0].setFrame(1); lights[0].setFrame(0) }, 1500)
-            timeThree = setTimeout(() => { this.move(''); instructions[0].setFrame(0); lights[2].setFrame(1) }, 2000)
-            timeFour = setTimeout(() => { lights[2].setFrame(0) }, 3000)
-        } else if (action === 'left' && action2 === '' && action3 === '') { // LEFT
-            // Move Player
-            this.move('left')
-            // Turn on indicators
-            instructions[1].setFrame(1)
-            // Stop player and turn off indicators
-            timeOne = setTimeout(() => { this.move(''); instructions[1].setFrame(0); lights[1].setFrame(1) }, 500)
-            timeTwo = setTimeout(() => { lights[1].setFrame(0); lights[2].setFrame(1) }, 2000)
-            timeThree = setTimeout(() => { lights[2].setFrame(0) }, 3000)
-        } else if (action === '' && action2 === '' && action3 === 'left') {
-            timeOne = setTimeout(() => { lights[0].setFrame(1) }, 1000)
-            timeTwo = setTimeout(() => { lights[0].setFrame(0); lights[1].setFrame(1) }, 2000)
-            timeThree = setTimeout(() => { this.move('left'); instructions[1].setFrame(1); lights[1].setFrame(0) }, 2500)
-            timeFour = setTimeout(() => { this.move(''); instructions[1].setFrame(0) }, 3000)
-        } else if (action === '' && action2 === 'left' && action3 === '') {
-            timeOne = setTimeout(() => { lights[0].setFrame(1) }, 1000)
-            timeTwo = setTimeout(() => { this.move('left'); instructions[1].setFrame(1); lights[0].setFrame(0) }, 1500)
-            timeThree = setTimeout(() => { this.move(''); instructions[1].setFrame(0); lights[2].setFrame(1) }, 2000)
-            timeFour = setTimeout(() => { lights[2].setFrame(0) }, 3000)
-        } else if (action === 'right' && action2 === 'left' && action3 === '') { // RIGHT AND LEFT
-            // Move Player
-            this.move('right')
-            // Turn on indicators
-            instructions[0].setFrame(1)
-            // Stop player and turn off indicators
-            timeOne = setTimeout(() => { this.move('left'); instructions[0].setFrame(0); instructions[1].setFrame(1) }, 500)
-            timeTwo = setTimeout(() => { this.move('');instructions[1].setFrame(0); lights[2].setFrame(1) }, 1000)
-            timeThree = setTimeout(() => { lights[2].setFrame(0) }, 3000)
-        } else if (action === 'left' && action2 === 'right' && action3 === '') {
-            // Move Player
-            this.move('left')
-            // Turn on indicators
-            instructions[1].setFrame(1)
-            // Stop player and turn off indicators
-            timeOne = setTimeout(() => { this.move('right'); instructions[1].setFrame(0); instructions[0].setFrame(1) }, 500)
-            timeTwo = setTimeout(() => { this.move('');instructions[0].setFrame(0); lights[2].setFrame(1) }, 1000)
-            timeThree = setTimeout(() => { lights[2].setFrame(0) }, 3000)
-        } else if (action === 'right' && action2 === '' && action3 === 'left') {
-            // Move Player
-            this.move('right')
-            // Turn on indicators
-            instructions[0].setFrame(1)
-            // Stop player and turn off indicators
-            timeOne = setTimeout(() => { this.move(''); instructions[0].setFrame(0); lights[1].setFrame(1) }, 500)
-            timeTwo = setTimeout(() => { this.move('left'); instructions[1].setFrame(1); lights[1].setFrame(0) }, 1500)
-            timeThree = setTimeout(() => { this.move(''); instructions[1].setFrame(0) }, 2000)
-        } else if (action === 'left' && action2 === '' && action3 === 'right') {
-            // Move Player
-            this.move('left')
-            // Turn on indicators
-            instructions[1].setFrame(1)
-            // Stop player and turn off indicators
-            timeOne = setTimeout(() => { this.move(''); instructions[1].setFrame(0); lights[1].setFrame(1) }, 500)
-            timeTwo = setTimeout(() => { this.move('right'); instructions[0].setFrame(1); lights[1].setFrame(0) }, 1500)
-            timeThree = setTimeout(() => { this.move(''); instructions[0].setFrame(0) }, 2000)
-        } else if (action === 'right' && action2 === 'jump' && action3 === '') { // LONG JUMP
-            // Move Player
-            this.move('right')
-            this.move('jump')
-            // Turn on indicators
-            instructions[0].setFrame(1)
-            instructions[2].setFrame(1)
-            // Stop player and turn off indicators
-            timeOne = setTimeout(() => { instructions[0].setFrame(0) }, 500)
-            timeTwo = setTimeout(() => { this.move(''); instructions[2].setFrame(0) ; lights[2].setFrame(1) }, 1000)
-            timeThree = setTimeout(() => { lights[2].setFrame(0) }, 3000)
-        } else if (action === 'left' && action2 === 'jump' && action3 === '') {
-            // Move Player
-            this.move('left')
-            this.move('jump')
-            // Turn on indicators
-            instructions[1].setFrame(1)
-            instructions[2].setFrame(1)
-            // Stop player and turn off indicators
-            timeOne = setTimeout(() => { instructions[1].setFrame(0) }, 500)
-            timeTwo = setTimeout(() => { this.move(''); instructions[2].setFrame(0) ; lights[2].setFrame(1) }, 1000)
-            timeThree = setTimeout(() => { lights[2].setFrame(0) }, 3000)
-        } else if (action === 'jump' && action2 === 'right' && action3 === '') { // SHORT JUMP
-            // Move Player
-            this.move('jump')
-            // Turn on indicators
-            instructions[2].setFrame(1)
-            // Stop player and turn off indicators
-            timeOne = setTimeout(() => { this.move('right'); instructions[0].setFrame(1) }, 500)
-            timeTwo = setTimeout(() => { this.move(''); instructions[2].setFrame(0); instructions[0].setFrame(0); lights[2].setFrame(1) }, 1000)
-            timeThree = setTimeout(() => { lights[2].setFrame(0) }, 2000)
-        } else if (action === 'jump' && action2 === 'left' && action3 === '') {
-            // Move Player
-            this.move('jump')
-            // Turn on indicators
-            instructions[2].setFrame(1)
-            // Stop player and turn off indicators
-            timeOne = setTimeout(() => { this.move('left'); instructions[1].setFrame(1) }, 500)
-            timeTwo = setTimeout(() => { this.move(''); instructions[2].setFrame(0); instructions[1].setFrame(0); lights[2].setFrame(1) }, 1000)
-            timeThree = setTimeout(() => { lights[2].setFrame(0) }, 2000)
+        switch(moves) {
+            case 'RSS':
+            case 'LSS':
+                // Move Player
+                this.move(game.dropZones[0].data.get('action') === 'R' ? 'RIGHT': 'LEFT')
+                // Turn on indicators
+                game.instructions[game.dropZones[0].data.get('action') === 'R' ? 0: 1].setFrame(1)
+                // Stop player and turn off indicators
+                timeOne = setTimeout(() => { this.move('STOP'); game.instructions[game.dropZones[0].data.get('action') === 'R' ? 0: 1].setFrame(0); game.lights[1].setFrame(1) }, 500)
+                timeTwo = setTimeout(() => { game.lights[1].setFrame(0); game.lights[2].setFrame(1) }, 1500)
+                timeThree = setTimeout(() => { game.lights[2].setFrame(0) }, 2500)
+                break
+            
+            case 'SSR':
+            case 'SSL':
+                game.lights[0].setFrame(1)
+                timeOne = setTimeout(() => { game.lights[0].setFrame(0); game.lights[1].setFrame(1)}, 1000)
+                timeTwo = setTimeout(() => { this.move(game.dropZones[2].data.get('action') === 'R' ? 'RIGHT': 'LEFT'); game.instructions[game.dropZones[2].data.get('action') === 'R' ? 0: 1].setFrame(1); game.lights[1].setFrame(0) }, 2000)
+                timeThree = setTimeout(() => { this.move('STOP'); game.instructions[game.dropZones[2].data.get('action') === 'R' ? 0: 1].setFrame(0) }, 2500)
+                break
+
+            case 'SRS':
+            case 'SLS':
+                game.lights[0].setFrame(1)
+                timeOne = setTimeout(() => { this.move(game.dropZones[1].data.get('action') === 'R' ? 'RIGHT': 'LEFT'); game.instructions[game.dropZones[1].data.get('action') === 'R' ? 0: 1].setFrame(1); game.lights[0].setFrame(0) }, 1000)
+                timeTwo = setTimeout(() => { this.move('STOP'); game.instructions[game.dropZones[1].data.get('action') === 'R' ? 0: 1].setFrame(0); game.lights[2].setFrame(1) }, 1500)
+                timeThree = setTimeout(() => { game.lights[2].setFrame(0) }, 2500)
+                break
+
+            case 'LRS':
+            case 'RLS':
+                // Move Player
+                this.move(game.dropZones[0].data.get('action') === 'R' ? 'RIGHT': 'LEFT')
+                // Turn on indicators
+                game.instructions[game.dropZones[0].data.get('action') === 'R' ? 0: 1].setFrame(1)
+                // Stop player and turn off indicators
+                timeOne = setTimeout(() => { this.move(game.dropZones[1].data.get('action') === 'R' ? 'RIGHT': 'LEFT'); game.instructions[game.dropZones[0].data.get('action') === 'R' ? 0: 1].setFrame(0); game.instructions[game.dropZones[1].data.get('action') === 'R' ? 0: 1].setFrame(1) }, 500)
+                timeTwo = setTimeout(() => { this.move('STOP'); game.instructions[game.dropZones[1].data.get('action') === 'R' ? 0: 1].setFrame(0); game.lights[2].setFrame(1) }, 1000)
+                timeThree = setTimeout(() => { game.lights[2].setFrame(0) }, 2500)
+                break
+
+            case 'SLR':
+            case 'SRL':
+                game.lights[0].setFrame(1)
+                timeOne = setTimeout(() => { this.move(game.dropZones[1].data.get('action') === 'R' ? 'RIGHT': 'LEFT'); game.instructions[game.dropZones[1].data.get('action') === 'R' ? 0: 1].setFrame(1); game.lights[0].setFrame(0) }, 1500)
+                timeTwo = setTimeout(() => { this.move(game.dropZones[2].data.get('action') === 'R' ? 'RIGHT': 'LEFT'); game.instructions[game.dropZones[1].data.get('action') === 'R' ? 0: 1].setFrame(0); game.instructions[game.dropZones[2].data.get('action') === 'R' ? 0: 1].setFrame(1) }, 2000)
+                timeThree = setTimeout(() => { this.move('STOP'); game.instructions[game.dropZones[2].data.get('action') === 'R' ? 0: 1].setFrame(0) }, 2500)
+                break
+
+            case 'LSR':
+            case 'RSL':
+                // Move Player
+                this.move(game.dropZones[0].data.get('action') === 'R' ? 'RIGHT': 'LEFT')
+                // Turn on indicators
+                game.instructions[game.dropZones[0].data.get('action') === 'R' ? 0: 1].setFrame(1)
+                // Stop player and turn off indicators
+                timeOne = setTimeout(() => { this.move('STOP'); game.instructions[game.dropZones[0].data.get('action') === 'R' ? 0: 1].setFrame(0); game.lights[1].setFrame(1) }, 500)
+                timeTwo = setTimeout(() => { this.move(game.dropZones[2].data.get('action') === 'R' ? 'RIGHT': 'LEFT'); game.instructions[game.dropZones[2].data.get('action') === 'R' ? 0: 1].setFrame(1); game.lights[1].setFrame(0) }, 1500)
+                timeThree = setTimeout(() => { this.move('STOP'); game.instructions[game.dropZones[2].data.get('action') === 'R' ? 0: 1].setFrame(0) }, 2000)
+                break
+
+            case 'RJS':
+            case 'LJS':
+                // Move Player
+                this.data.values.speed = 350
+                this.data.values.jumpSpeed = 620
+                this.move(game.dropZones[0].data.get('action') === 'R' ? 'RIGHT': 'LEFT')
+                this.move('JUMP')
+                // Turn on indicators
+                game.instructions[game.dropZones[0].data.get('action') === 'R' ? 0: 1].setFrame(1)
+                game.instructions[2].setFrame(1)
+                // Stop player and turn off indicators
+                timeOne = setTimeout(() => { game.instructions[game.dropZones[0].data.get('action') === 'R' ? 0: 1].setFrame(0) }, 500)
+                timeTwo = setTimeout(() => { this.move('STOP') ; game.instructions[2].setFrame(0) ; game.lights[2].setFrame(1) }, 1000)
+                timeThree = setTimeout(() => { game.lights[2].setFrame(0) }, 2000)
+                break
+
+            case 'SRJ':
+            case 'SLJ':
+                this.data.values.speed = 350
+                this.data.values.jumpSpeed = 620
+                game.lights[0].setFrame(1)
+                timeOne = setTimeout(() => { this.move(game.dropZones[1].data.get('action') === 'R' ? 'RIGHT': 'LEFT'); game.lights[0].setFrame(0); game.instructions[game.dropZones[1].data.get('action') === 'R' ? 0: 1].setFrame(1); this.move('JUMP'); game.instructions[2].setFrame(1) }, 1000)
+                timeTwo = setTimeout(() => { game.instructions[game.dropZones[1].data.get('action') === 'R' ? 0: 1].setFrame(0) }, 1500)
+                timeThree = setTimeout(() => { this.move('STOP') ; game.instructions[2].setFrame(0) }, 2000)
+                break
+
+            case 'JSS':
+                // Move Player
+                this.move('JUMP')
+                // Turn on indicators
+                game.instructions[2].setFrame(1)
+                // Stop player and turn off indicators
+                timeOne = setTimeout(() => { this.move('STOP'); game.instructions[2].setFrame(0); game.lights[1].setFrame(1) }, 1000)
+                timeTwo = setTimeout(() => { game.lights[1].setFrame(0); game.lights[2].setFrame(1) }, 1800)
+                timeThree = setTimeout(() => { game.lights[2].setFrame(0) }, 2300)
+                break
+
+            case 'SJS':
+                game.lights[0].setFrame(1)
+                timeOne = setTimeout(() => { this.move('JUMP'); game.instructions[2].setFrame(1); game.lights[0].setFrame(0) }, 1000)
+                timeTwo = setTimeout(() => { this.move('STOP'); game.instructions[2].setFrame(0); game.lights[2].setFrame(1) }, 2000)
+                timeThree = setTimeout(() => { game.lights[2].setFrame(0) }, 3000)
+                break
+            case 'SSJ':
+                game.lights[0].setFrame(1)
+                timeOne = setTimeout(() => { game.lights[0].setFrame(0); game.lights[1].setFrame(0) }, 1000)
+                timeTwo = setTimeout(() => { this.move('JUMP'); game.instructions[2].setFrame(1); game.lights[2].setFrame(0) }, 2000)
+                timeThree = setTimeout(() => { this.move('STOP'); game.instructions[2].setFrame(0) }, 3000)
+                break
+            
+            case 'JLS':
+            case 'JRS':
+                // Move Player
+                this.move('JUMP')
+                // Turn on indicators
+                game.instructions[2].setFrame(1)
+                // Stop player and turn off indicators
+                timeOne = setTimeout(() => { this.move(game.dropZones[1].data.get('action') === 'R' ? 'RIGHT': 'LEFT'); game.instructions[game.dropZones[1].data.get('action') === 'R' ? 0: 1].setFrame(1) }, 500)
+                timeTwo = setTimeout(() => { this.move('STOP'); game.instructions[2].setFrame(0); game.instructions[game.dropZones[1].data.get('action') === 'R' ? 0: 1].setFrame(0); game.lights[2].setFrame(1) }, 1000)
+                timeThree = setTimeout(() => { game.lights[2].setFrame(0) }, 2000)
+                break
+
+            case 'SJL':
+            case 'SJR':
+                break
+
+            case 'JSL':
+            case 'JSR':
+                break
+
+            case 'JLR':
+            case 'JRL':
+                break
+
+            case 'LRJ':
+            case 'RLJ':
+                break
+
+            case 'LJR':
+            case 'RJL':
+                break
+
         }
+
     }
 
     stopTimerPlayer(){

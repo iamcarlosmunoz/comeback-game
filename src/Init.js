@@ -18,7 +18,7 @@ let scenes = [
 
 // Game config
 const config = {
-    type: Phaser.AUTO,
+    type: Phaser.CANVAS,
     parent: 'output',
     title: '>_COMEBACK',
     ulr: 'https://github.com/iamcarlosmunoz/comeback-game',
@@ -46,8 +46,8 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 500 },
-            debug: false
+            gravity: { y: 200 },
+            debug: true
         }
     }
 }

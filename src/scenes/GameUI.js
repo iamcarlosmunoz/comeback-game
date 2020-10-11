@@ -35,9 +35,9 @@ export default class GameUI extends Phaser.Scene {
         this.instructions_panel = this.add.image(34,344.5,'instructions_panel').setOrigin(0).setDepth(1).setScale(0.5)
         
         // Create GameObject Instruction
-        this.right = new Instruction(this, this.instructionX, 540, 'right')
-        this.jump = new Instruction(this, this.instructionX, 580, 'jump')
-        this.left = new Instruction(this, this.instructionX, 620, 'left')
+        this.right = new Instruction(this, this.instructionX, 540, 'R')
+        this.jump = new Instruction(this, this.instructionX, 580, 'J')
+        this.left = new Instruction(this, this.instructionX, 620, 'L')
 
         // Drag propertie
         this.input.setDraggable([this.right,this.jump,this.left])
@@ -98,19 +98,19 @@ export default class GameUI extends Phaser.Scene {
             switch(gameObject.data.get('zone')){
                 case 1:
                     this.dropZone_1.setInteractive()
-                    this.dropZone_1.data.values.action = ''
+                    this.dropZone_1.data.values.action = 'S'
                     gameObject.data.values.zone = 0
                     action_lights[0].setFrame(0)
                     break
                 case 2:
                     this.dropZone_2.setInteractive()
-                    this.dropZone_2.data.values.action = ''
+                    this.dropZone_2.data.values.action = 'S'
                     gameObject.data.values.zone = 0
                     action_lights[1].setFrame(0)
                     break
                 case 3:
                     this.dropZone_3.setInteractive()
-                    this.dropZone_3.data.values.action = ''
+                    this.dropZone_3.data.values.action = 'S'
                     gameObject.data.values.zone = 0
                     action_lights[2].setFrame(0)
                     break
@@ -138,7 +138,7 @@ export default class GameUI extends Phaser.Scene {
             dropZone.data.values.action = gameObject.data.get('action')
             dropZone.disableInteractive()
 
-            if (dropZone.data.get('action') !== ''){
+            if (dropZone.data.get('action') !== 'S'){
                 action_lights[dropZone.data.get('name') - 1].setFrame(1)
             }
 

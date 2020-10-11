@@ -11,7 +11,7 @@ export default class DropZone extends Phaser.GameObjects.Zone {
 
         // Data
         this.data.set('name', name)
-        this.data.set('action', '')
+        this.data.set('action', 'S')
 
         this.rectangle_1 = scene.add.rectangle(
             this.x - this.input.hitArea.width / 2,

@@ -20,13 +20,15 @@ export default class Game extends Phaser.Scene {
         this.scene.run('GameUI')
 
         //  Set the camera and physics bounds 
-        this.cameras.main.setBounds(0, 0, 3200, 720);
-        this.physics.world.setBounds(0, 0, 3200, 720);
+        this.physics.world.setBounds(0, 0, 3200, 720)
+        this.main_camara = this.cameras.main.setBounds(0, 0, 3200, 720)
 
         // Set scene art
         this.background = this.add.image(0,150, 'background').setOrigin(0).setScale(0.8)
         this.stars = this.add.tileSprite(0, 150, 3200, 650, 'stars').setOrigin(0).setScrollFactor(0).setScale(0.5)
         this.wall = this.add.image(0, 0, 'wall').setOrigin(0).setScale(0.8)
+
+        // Lamps and Lights
         this.lamp_001 = this.add.image(794, 240, 'lamp').setOrigin(0.5).setScale(0.8)
         this.lamp_002 = this.add.image(this.lamp_001.x + 787, 240, 'lamp').setOrigin(0.5).setScale(0.8)
         this.lamp_003 = this.add.image(this.lamp_002.x + 785, 240, 'lamp').setOrigin(0.5).setScale(0.8)
@@ -34,6 +36,7 @@ export default class Game extends Phaser.Scene {
         this.light_001 = this.add.image(this.lamp_001.x,this.lamp_001.y, 'light').setOrigin(0.5).setScale(0.8)
         this.light_002 = this.add.image(this.lamp_002.x,this.lamp_002.y, 'light').setOrigin(0.5).setScale(0.8)
         this.light_003 = this.add.image(this.lamp_003.x,this.lamp_003.y, 'light').setOrigin(0.5).setScale(0.8)
+        
         this.animation_light_001 = this.tweens.add({
             targets: [this.light_001, this.light_002, this.light_003],
             alpha: { from: 1, to: 0.6 },
@@ -45,7 +48,15 @@ export default class Game extends Phaser.Scene {
         })
 
         // Create Player in Scene Game
-        this.astronaut = new Player(this, 200, 200, 'astronaut',1.5, this.cameras.main)
+        this.astronaut = new Player({
+            scene: this,
+            x: 200,
+            y: 200,
+            type: 'astronaut',
+            scale: 1.5
+        })
+
+        this.main_camara.startFollow(this.astronaut, false, 0.05, 0.05)
 
         // Obstacles
         this.obstacle_001 = this.physics.add.staticSprite(450, 500, 'obstacle_001').setScale(0.8)
@@ -71,21 +82,18 @@ export default class Game extends Phaser.Scene {
         this.physics.add.collider(this.astronaut,this.obstacle_002)
         this.physics.add.collider(this.astronaut,this.obstacle_003)
 
-        console.log(this.game.loop.actualFps)
     }
 
     update() {
 
-        // Effect Parallax
         this.stars.tilePositionX = this.cameras.main.scrollX * .3
-
     }
 
     loopPlayer(dropZones, instructions, lights, iterator, btn, startPosition) {
 
         let drop = dropZones[0].data.get('action') + dropZones[1].data.get('action') + dropZones[2].data.get('action')
 
-        if (btn.data.get('status') === 'run' && drop !== '') {
+        if (btn.data.get('status') === 'run' && drop !== 'SSS') {
             // turn on btn_run
             btn.setFrame(1)
             // set Player Position
@@ -104,7 +112,12 @@ export default class Game extends Phaser.Scene {
             timerLoop = this.time.addEvent({
                 delay: 3000,
                 startAt: 3000,
-                callback: () => this.astronaut.movePlayer(dropZones, instructions, lights),
+                callback: () => this.astronaut.movePlayer({
+                    dropZones,
+                    instructions,
+                    lights,
+                    scene: this
+                }),
                 repeat: iterator.data.get('repeat'),
                 callbackScope: this
             })
@@ -114,9 +127,9 @@ export default class Game extends Phaser.Scene {
             // turn off btn_run
             btn.setFrame(0)
             // animation player startPosition
-            this.astronaut.move('')
+            this.astronaut.move('STOP')
             this.astronaut.setX(startPosition[0])
-            this.astronaut.setY(startPosition[1] - 300)
+            this.astronaut.setY(startPosition[1])
             this.astronaut.flipX = startPosition[2]
             resetStateElements('on', this.astronaut)
             
@@ -140,9 +153,7 @@ export default class Game extends Phaser.Scene {
                 instructions[2].disableInteractive()
             } else if (state === 'on') {
 
-                player.move('')
-
-                let i = 0
+                player.move('STOP')
 
                 instructions.map(element => {
                     if (element.frame.name === 1){
@@ -150,8 +161,9 @@ export default class Game extends Phaser.Scene {
                     }
                 })
 
+                let i = 0
                 lights.map(element => {
-                    if (element.frame.name === 1 && dropZones[i].data.get('action') === ''){
+                    if (element.frame.name === 1 && dropZones[i].data.get('action') === 'S'){
                         element.setFrame(0)
                     }
                     i++ // temp

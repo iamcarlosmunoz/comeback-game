@@ -1,3 +1,4 @@
+
 export const toggleFullScreen = (scene) => {
     if (scene.scale.isFullscreen) {
         scene.scale.stopFullscreen();

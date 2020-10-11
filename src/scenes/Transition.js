@@ -16,7 +16,7 @@ export default class Transition extends Phaser.Scene {
     
         this.scene.bringToTop('Transition')
 
-        // END TRANSITION
+        // START TRANSITION
         this.animation_up = this.tweens.add({
             targets: this.up,
             y: { from: -this.up.height, to: 0 },
