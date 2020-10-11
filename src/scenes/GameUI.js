@@ -10,6 +10,7 @@ export default class GameUI extends Phaser.Scene {
     }
 
     init() {
+
         // Propeties Scene UI
         this.centerX = Math.round(0.5 * this.scale.width)
         this.centerY = Math.round(0.5 * this.scale.height)
@@ -69,20 +70,22 @@ export default class GameUI extends Phaser.Scene {
         const action_lights = [this.actionLight_1, this.actionLight_2, this.actionLight_3]
 
         // Add elements instructions container
-        this.instructions_container.add([
-            this.instructions_panel,
-            this.left,
-            this.jump,
-            this.right,
-            this.dropZone_1,
-            this.dropZone_2,
-            this.dropZone_3,
-            this.btn_run,
-            this.iterator_loop,
-            this.actionLight_1,
-            this.actionLight_2,
-            this.actionLight_3
-            ])
+        this.instructions_container.add(
+            [
+                this.instructions_panel,
+                this.left,
+                this.jump,
+                this.right,
+                this.dropZone_1,
+                this.dropZone_2,
+                this.dropZone_3,
+                this.btn_run,
+                this.iterator_loop,
+                this.actionLight_1,
+                this.actionLight_2,
+                this.actionLight_3
+            ]
+        )
 
         //create state bar player  
         this.add.image(50,50,'status_main').setOrigin(0).setScale(0.4)
@@ -119,8 +122,8 @@ export default class GameUI extends Phaser.Scene {
         }, this)
     
         this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-            gameObject.x = dragX;
-            gameObject.y = dragY;
+            gameObject.x = dragX
+            gameObject.y = dragY
             gameObject.setFrame(0)
         })
     

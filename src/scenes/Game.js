@@ -20,7 +20,7 @@ export default class Game extends Phaser.Scene {
         this.scene.run('GameUI')
 
         //  Set the camera and physics bounds 
-        this.physics.world.setBounds(0, 0, 3200, 720)
+        this.physics.world.setBounds(0, -30, 3200, 750)
         this.main_camara = this.cameras.main.setBounds(0, 0, 3200, 720)
 
         // Set scene art
@@ -36,7 +36,8 @@ export default class Game extends Phaser.Scene {
         this.light_001 = this.add.image(this.lamp_001.x,this.lamp_001.y, 'light').setOrigin(0.5).setScale(0.8)
         this.light_002 = this.add.image(this.lamp_002.x,this.lamp_002.y, 'light').setOrigin(0.5).setScale(0.8)
         this.light_003 = this.add.image(this.lamp_003.x,this.lamp_003.y, 'light').setOrigin(0.5).setScale(0.8)
-        
+
+        // Anims (Lamps)
         this.animation_light_001 = this.tweens.add({
             targets: [this.light_001, this.light_002, this.light_003],
             alpha: { from: 1, to: 0.6 },
@@ -56,6 +57,7 @@ export default class Game extends Phaser.Scene {
             scale: 1.5
         })
 
+        // set camera follow player
         this.main_camara.startFollow(this.astronaut, false, 0.05, 0.05)
 
         // Obstacles
@@ -76,7 +78,7 @@ export default class Game extends Phaser.Scene {
         this.floor = this.physics.add.image(0, 458, 'floor').setOrigin(0).setImmovable(true).setCollideWorldBounds(true).setBodySize(4000, 328, false).setScale(0.8)
         this.curve = this.add.tileSprite(0, 100, 4000, 800, 'curve').setOrigin(0).setScrollFactor(1).setScale(0.8)
 
-        // Set Physics Game
+        // Set Physics Collider Game with Player
         this.physics.add.collider(this.astronaut,this.floor)
         this.physics.add.collider(this.astronaut,this.obstacle_001)
         this.physics.add.collider(this.astronaut,this.obstacle_002)

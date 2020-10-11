@@ -7,8 +7,10 @@ export default class Bootloader extends Phaser.Scene {
     }
 
     preload() {
-        // Logos
+
         this.load.path = 'images/'
+
+        // Logos
         this.load.image('logo_phaser', 'logos/phaser.png')
         this.load.image('logo_bestcresw', 'logos/bestcrew-studios.png')
         this.load.image('btn_fullscreen', 'icons/maximize.png')
@@ -23,6 +25,10 @@ export default class Bootloader extends Phaser.Scene {
 
         // Status bar
         this.load.image('status_main','sprites/status/main.png')
+        
+        // Player
+        this.load.atlas('astronaut', 'sprites/astronaut/astronaut.png', 'sprites/astronaut/astronaut_atlas.json')
+        this.load.json('astronaut_anim', 'sprites/astronaut/astronaut_anim.json')
 
         // Background
         this.load.image('background', 'sprites/background/background.png')
@@ -37,9 +43,6 @@ export default class Bootloader extends Phaser.Scene {
         // Obstacles
         this.load.image('obstacle_001', 'sprites/obstacles/001.png')
         
-        // Player
-        this.load.atlas('astronaut', 'sprites/astronaut/astronaut.png', 'sprites/astronaut/astronaut_atlas.json')
-        this.load.json('astronaut_anim', 'sprites/astronaut/astronaut_anim.json')
 
         this.load.on('complete', () => {
             // this.scene.start('IntroGame')
