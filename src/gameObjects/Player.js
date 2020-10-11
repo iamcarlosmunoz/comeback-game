@@ -9,7 +9,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.setData({
 			speed: 200,
-			jumpSpeed: 550,
+			jumpSpeed: 590,
 			gravity: 800
 		})
 
@@ -43,7 +43,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         if (direction == 'STOP') {
             this.setVelocityX(0)
             this.data.values.speed = 200
-            this.data.values.jumpSpeed = 550 
+            this.data.values.jumpSpeed = 590 
             this.anims.play('idle')
         }
         
@@ -56,11 +56,20 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             this.setVelocityX(this.data.values.speed)
             this.setFlipX(false)
             this.anims.play('walk')
+        } else if (direction == 'RIGHT_SHORT') {
+            this.setVelocityX(this.data.values.speed)
+            this.setFlipX(false)
+        } else if (direction == 'LEFT_SHORT') {
+            this.setVelocityX(-this.data.values.speed)
+            this.anims.play('walk')
         }
 
         if (direction == 'JUMP') {
             this.setVelocityY(-this.data.values.jumpSpeed)
             this.anims.play('jump')
+        } else if (direction == 'JUMP_SHORT') {
+            this.setVelocityY(-this.data.values.jumpSpeed)
+            this.anims.play('jump_short')
         }
     }
 
@@ -243,13 +252,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             case 'JLS':
             case 'JRS':
                 // Move Player
-                this.move('JUMP')
+                this.move('JUMP_SHORT')
                 // Turn on indicators
                 game.instructions[2].setFrame(1)
                 // Stop player and turn off indicators
                 timeOne = setTimeout(() => { 
-                    this.move(game.dropZones[1].data.get('action') === 'R' ? 'RIGHT': 'LEFT'); 
                     game.instructions[game.dropZones[1].data.get('action') === 'R' ? 0: 1].setFrame(1) 
+                    this.move((game.dropZones[1].data.get('action') === 'R' ? 'RIGHT': 'LEFT') + '_SHORT') 
                 }, 500)
                 timeTwo = setTimeout(() => { 
                     game.instructions[2].setFrame(0)
@@ -266,11 +275,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
                 timeOne = setTimeout(() => { 
                     game.instructions[2].setFrame(1)
                     game.lights[0].setFrame(0) 
-                    this.move('JUMP')
+                    this.move('JUMP_SHORT')
                 }, 1000)
                 timeTwo = setTimeout(() => { 
                     game.instructions[game.dropZones[2].data.get('action') === 'R' ? 0: 1].setFrame(1) 
-                    this.move(game.dropZones[2].data.get('action') === 'R' ? 'RIGHT': 'LEFT')
+                    this.move((game.dropZones[2].data.get('action') === 'R' ? 'RIGHT': 'LEFT') + '_SHORT')
                 }, 1500)
                 timeThree = setTimeout(() => { 
                     game.instructions[2].setFrame(0)
@@ -306,13 +315,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
             case 'JLR':
             case 'JRL':
                 // Move Player
-                this.move('JUMP')
+                this.move('JUMP_SHORT')
                 // Turn on indicators
                 game.instructions[2].setFrame(1)
                 // Stop player and turn off indicators
                 timeOne = setTimeout(() => { 
-                    this.move(game.dropZones[1].data.get('action') === 'R' ? 'RIGHT': 'LEFT'); 
                     game.instructions[game.dropZones[1].data.get('action') === 'R' ? 0: 1].setFrame(1) 
+                    this.move((game.dropZones[1].data.get('action') === 'R' ? 'RIGHT': 'LEFT') + '_SHORT') 
                 }, 500)
                 timeTwo = setTimeout(() => { 
                     game.instructions[2].setFrame(0)
