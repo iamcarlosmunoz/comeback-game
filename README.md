@@ -2,7 +2,7 @@
 > Juego serio creado por Estudiantes del la Institución Universitaria Colegio Mayor Del Cauca
 
 ## Demo
-See https://iamcarlosmunoz.github.io/comeback-game/
+See https://munozrc.github.io/comeback-game/
 
 ## Prerequisites
 Install Parcel:
